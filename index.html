@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Sen Đá House • Vườn Cây Cảnh & Sen Đá Mini Để Bàn</title>
+  <meta name="description" content="Shop sen đá, xương rồng mini để bàn làm việc cao cấp, chậu gốm Bát Tràng, bảo hành vận chuyển an toàn 100%, thanh toán VietQR & chốt đơn Zalo tiện lợi." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#1b4332" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sen Đá House" />
+  <meta property="og:title" content="Sen Đá House • Vườn Cây Cảnh & Sen Đá Mini Để Bàn" />
+  <meta property="og:description" content="Shop sen đá, xương rồng mini để bàn làm việc cao cấp, chậu gốm Bát Tràng, bảo hành vận chuyển an toàn 100%, thanh toán VietQR & chốt đơn Zalo tiện lợi." />
+  <meta property="og:image" content="assets/hero-banner.jpg" />
+  <meta property="og:locale" content="vi_VN" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sen Đá House • Vườn Cây Cảnh & Sen Đá Mini Để Bàn" />
+  <meta name="twitter:description" content="Shop sen đá, xương rồng mini để bàn làm việc cao cấp, chậu gốm Bát Tràng, bảo hành vận chuyển an toàn 100%, thanh toán VietQR & chốt đơn Zalo tiện lợi." />
+  <meta name="twitter:image" content="assets/hero-banner.jpg" />
+
+  <!-- Favicon biểu tượng lá mầm xanh -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>" />
+  
+  <!-- JSON-LD Structured Data (Schema.org Store) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "Sen Đá House",
+    "image": "assets/hero-banner.jpg",
+    "description": "Vườn sen đá, xương rồng và cây cảnh mini để bàn văn phòng cao cấp, chậu gốm Bát Tràng",
+    "telephone": "0987654321",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "124 Vườn Cảnh Xanh",
+      "addressLocality": "Cầu Giấy",
+      "addressRegion": "Hà Nội",
+      "addressCountry": "VN"
+    },
+    "priceRange": "35000 - 240000 VND"
+  }
+  </script>
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- 1. Thanh thông báo ưu đãi (Top Bar) -->
+  <header class="top-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-tags">
+        <span class="top-bar-tag">🌱 Miễn phí vận chuyển cho đơn từ 300.000đ</span>
+        <span class="top-bar-tag"> Bảo hành 1 đổi 1 nếu cây dập gãy khi giao</span>
+      </div>
+      <div class="top-bar-links">
+        <span>Mã giảm giá hôm nay: <strong>SENXANH10</strong> (Giảm 10%) • Hotline: <a href="tel:0987654321">0987.654.321</a></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Thanh điều hướng chính (Navbar) -->
+  <nav class="navbar" id="main-navbar">
+    <div class="container navbar-inner">
+      <!-- Logo & Tên shop -->
+      <div class="brand" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <div class="brand-logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12c0-2.8 1.15-5.33 3-7.15"></path>
+            <path d="M12 12v9"></path>
+            <path d="M12 12c2.5 0 5-2 5-5"></path>
+            <path d="M12 15c-3 0-5-2-5-5"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>Sen Đá House</h1>
+          <span>Vườn Xanh Để Bàn</span>
+        </div>
+      </div>
+
+      <!-- Ô tìm kiếm tức thì -->
+      <div class="search-box">
+        <div class="search-input-wrap">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Tìm sen đá, xương rồng, chậu gốm..." autocomplete="off" aria-label="Tìm kiếm sen đá, xương rồng hoặc chậu" />
+        </div>
+      </div>
+
+      <!-- Cụm nút chức năng -->
+      <div class="nav-actions">
+        <!-- Đổi theme Sáng / Tối -->
+        <button id="theme-toggle-btn" class="icon-btn" onclick="App.toggleTheme()" title="Chuyển chế độ Sáng / Tối" aria-label="Chuyển chế độ Sáng hoặc Tối">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+
+        <!-- Tra cứu đơn hàng -->
+        <button class="icon-btn" onclick="App.openOrderTrackingModal()" title="Tra cứu đơn hàng của bạn" aria-label="Tra cứu đơn hàng đã đặt">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+        </button>
+
+        <!-- Giỏ hàng -->
+        <button id="header-cart-btn" class="icon-btn" title="Xem giỏ hàng" aria-label="Xem giỏ hàng của bạn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-badge-count" aria-live="polite">0</span>
+        </button>
+
+        <!-- Link tới Bảng Admin Demo -->
+        <a href="admin.html" class="btn-admin-link" title="Mở trang quản trị đơn hàng & sản phẩm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          Admin Demo
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 3. Hero Section (Banner quảng bá ấn tượng) -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-content">
+          <span class="hero-tagline">🌿 Vườn Mộc Tự Nhiên • Giống Khỏe Thuần Khí Hậu</span>
+          <h2 class="hero-title">Đưa Thiên Nhiên Vào <span>Bàn Làm Việc</span></h2>
+          <p class="hero-desc">
+            Những chậu sen đá mọng nước, thanh lọc không khí, giảm bức xạ điện tử và tiếp thêm năng lượng xanh cho mỗi ngày làm việc hứng khởi.
+          </p>
+          <div class="hero-actions">
+            <a href="#catalog-section" class="btn btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+              Khám phá bộ sưu tập
+            </a>
+            <button class="btn btn-secondary" onclick="App.activeCategory='combo'; App.renderProducts(); document.getElementById('catalog-section').scrollIntoView({behavior: 'smooth'})">
+               Set quà tặng
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-image-wrap">
+          <img src="assets/hero-banner.jpg" alt="Vườn sen đá boutique" class="hero-img" />
+          <div class="hero-overlay-fade"></div>
+        </div>
+      </div>
+
+      <!-- 4 Cam kết dịch vụ (USP) -->
+      <div class="usp-bar">
+        <div class="usp-item">
+          
+          <div class="usp-info">
+            <h4>Bảo Hành 100%</h4>
+            <p>Hỏng dập lá khi ship đền cây mới</p>
+          </div>
+        </div>
+        <div class="usp-item">
+          
+          <div class="usp-info">
+            <h4>Tặng Kèm Sỏi Trắng</h4>
+            <p>Rải mặt chậu sạch sẽ, chống văng đất</p>
+          </div>
+        </div>
+        <div class="usp-item">
+          
+          <div class="usp-info">
+            <h4>Chốt Đơn 1 Chạm</h4>
+            <p>Quét VietQR hoặc nhắn thẳng qua Zalo</p>
+          </div>
+        </div>
+        <div class="usp-item">
+          
+          <div class="usp-info">
+            <h4>Hướng Dẫn Trọn Đời</h4>
+            <p>Kèm thiệp hướng dẫn chăm sóc chi tiết</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Danh mục & Bộ Lọc Sản Phẩm -->
+  <main class="catalog-section" id="catalog-section">
+    <div class="container">
+      <div class="catalog-header">
+        <div class="catalog-header-top">
+          <div class="section-title">
+            <h2>Bộ Sưu Tập Cây Để Bàn</h2>
+            <p>Cây đã được thuần dưỡng khỏe mạnh, dễ chăm sóc ngay cả với người mới bắt đầu</p>
+          </div>
+          
+          <!-- Sắp xếp -->
+          <div class="sort-wrap">
+            <label for="sort-select">Sắp xếp theo:</label>
+            <select id="sort-select" class="custom-select">
+              <option value="default">Mặc định (Nổi bật nhất)</option>
+              <option value="sold">Bán chạy nhất</option>
+              <option value="rating">Đánh giá cao nhất</option>
+              <option value="price-asc">Giá: Thấp đến Cao</option>
+              <option value="price-desc">Giá: Cao đến Thấp</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Thanh chọn danh mục nhanh -->
+        <div class="category-pills-row">
+          <button class="category-pill active" data-cat="all"> Tất cả cây</button>
+          <button class="category-pill" data-cat="sen-da"> Sen Đá Búp & Độc Lạ</button>
+          <button class="category-pill" data-cat="xuong-rong"> Xương Rồng Mini</button>
+          <button class="category-pill" data-cat="combo"> Combo Quà Tặng</button>
+          <button class="category-pill" data-cat="phu-kien"> Chậu Gốm & Đất Trồng</button>
+        </div>
+
+        <!-- Bộ lọc phụ (Khoảng giá & Mức độ chăm sóc) -->
+        <div class="secondary-filters-bar">
+          <div class="filter-group">
+            <span class="filter-group-label">Khoảng giá:</span>
+            <div class="filter-btn-group">
+              <button class="filter-btn price-filter-btn active" data-val="all">Tất cả</button>
+              <button class="filter-btn price-filter-btn" data-val="under-50k">&lt; 50.000đ</button>
+              <button class="filter-btn price-filter-btn" data-val="50k-100k">50k - 100k</button>
+              <button class="filter-btn price-filter-btn" data-val="over-100k">&gt; 100.000đ</button>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <span class="filter-group-label">Độ khó chăm:</span>
+            <div class="filter-btn-group">
+              <button class="filter-btn diff-filter-btn active" data-val="all">Tất cả</button>
+              <button class="filter-btn diff-filter-btn" data-val="dễ">Siêu dễ sống</button>
+              <button class="filter-btn diff-filter-btn" data-val="trung bình">Cần nắng vừa</button>
+            </div>
+          </div>
+
+          <span class="product-count-display" id="product-count-display">Đang tải danh sách...</span>
+        </div>
+      </div>
+
+      <!-- Lưới hiển thị sản phẩm -->
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+  </main>
+
+  <!-- ===================================================
+       5. SLIDE-OVER CART DRAWER (GIỎ HÀNG NHANH)
+       =================================================== -->
+  <div class="cart-backdrop" id="cart-backdrop"></div>
+  <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Giỏ hàng của bạn">
+    <div class="cart-drawer-header">
+      <h3>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        Giỏ Hàng Của Bạn
+      </h3>
+      <button class="cart-close-btn" id="cart-drawer-close-btn" title="Đóng giỏ hàng" aria-label="Đóng giỏ hàng">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <!-- Danh sách sản phẩm trong giỏ -->
+    <div class="cart-items-container" id="cart-items-container"></div>
+
+    <!-- Trạng thái giỏ rỗng -->
+    <div class="cart-empty-state" id="cart-empty-state" style="display: none;">
+      <div class="empty-cart-icon" aria-hidden="true">🛒</div>
+      <h4>Giỏ hàng của bạn đang trống</h4>
+      <p>Hãy chọn những chậu sen đá đáng yêu để bàn làm việc thêm xanh nhé!</p>
+      <button class="btn btn-primary" onclick="document.getElementById('cart-drawer-close-btn').click(); document.getElementById('catalog-section').scrollIntoView({behavior: 'smooth'})">
+        Xem cây ngay
+      </button>
+    </div>
+
+    <!-- Chân giỏ hàng: Mã giảm giá & Tạm tính -->
+    <div class="cart-drawer-footer" id="cart-drawer-footer">
+      <div class="coupon-section">
+        <div class="coupon-input-wrap">
+          <input type="text" id="coupon-code-input" class="coupon-input" placeholder="Nhập mã giảm (VD: SENXANH10)" aria-label="Nhập mã giảm giá" />
+          <button id="apply-coupon-btn" class="btn btn-secondary">Áp dụng</button>
+        </div>
+        <div id="active-coupon-box" class="active-coupon-box"></div>
+      </div>
+
+      <div class="price-summary-breakdown">
+        <div class="summary-row">
+          <span>Tạm tính tiền cây:</span>
+          <strong id="cart-subtotal">0 đ</strong>
+        </div>
+        <div class="summary-row">
+          <span>Phí vận chuyển:</span>
+          <span id="cart-shipping">25.000 đ</span>
+        </div>
+        <div class="summary-row" id="cart-discount-row" style="display: none; color: var(--success);">
+          <span>Giảm giá khuyến mãi:</span>
+          <strong id="cart-discount">-0 đ</strong>
+        </div>
+        <div class="summary-row total-row">
+          <span>Tổng thanh toán:</span>
+          <strong class="highlight-price" id="cart-final-total">0 đ</strong>
+        </div>
+      </div>
+
+      <button id="checkout-btn" class="btn btn-primary btn-checkout">
+        Tiến hành đặt hàng
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ===================================================
+       6. MODAL XEM NHANH CHI TIẾT SẢN PHẨM (QUICK VIEW)
+       =================================================== -->
+  <div class="modal-overlay" id="quickview-modal" role="dialog" aria-modal="true" aria-labelledby="qv-name">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="App.closeQuickView()" title="Đóng popup" aria-label="Đóng popup chi tiết sản phẩm">✕</button>
+      <div class="quickview-layout">
+        <!-- Cột ảnh & thumbnail -->
+        <div class="qv-gallery-col">
+          <div class="qv-img-main-wrap">
+            <img id="qv-img-main" src="" alt="Hình ảnh sản phẩm sen đá" class="qv-img-main" />
+          </div>
+          <div class="qv-thumbnails" id="qv-thumbnails"></div>
+        </div>
+
+        <!-- Cột thông tin & chọn loại chậu -->
+        <div class="qv-info-col">
+          <h2 id="qv-name">Tên cây</h2>
+          <p class="qv-scientific" id="qv-scientific"></p>
+          
+          <div class="qv-rating-row">
+            <span>⭐ <strong id="qv-rating">4.9</strong> <span id="qv-reviews"></span></span>
+            <span>•</span>
+            <span id="qv-sold"></span>
+          </div>
+
+          <div class="qv-price" id="qv-price">0 đ</div>
+          <p class="qv-desc" id="qv-short-desc"></p>
+
+          <!-- Thông số chăm sóc -->
+          <div class="qv-care-specs">
+            <span>🌿 <strong>Độ khó:</strong> <span id="qv-difficulty"></span></span>
+            <span>📏 <strong>Kích thước:</strong> <span id="qv-size"></span></span>
+            <span>☀️ <strong>Ánh sáng:</strong> <span id="qv-light"></span></span>
+            <span>💧 <strong>Nước tưới:</strong> <span id="qv-water"></span></span>
+          </div>
+
+          <!-- Lựa chọn chậu trồng đi kèm -->
+          <div class="pot-selector-label">Chọn loại chậu trồng:</div>
+          <div class="qv-pot-options" id="qv-pot-options"></div>
+
+          <!-- Số lượng & Nút thêm giỏ -->
+          <div class="qv-actions-row">
+            <div class="qty-control" style="padding: 4px;">
+              <button class="qty-btn" onclick="App.updateModalQty(-1)" aria-label="Giảm số lượng">-</button>
+              <span class="qty-val" id="qv-qty-input" aria-live="polite">1</span>
+              <button class="qty-btn" onclick="App.updateModalQty(1)" aria-label="Tăng số lượng">+</button>
+            </div>
+            <button class="btn btn-primary" style="flex: 1;" onclick="App.addCurrentModalToCart()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+              Thêm vào giỏ hàng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       7. MODAL ĐẶT HÀNG / CHECKOUT
+       =================================================== -->
+  <div class="modal-overlay" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-modal-title">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="CheckoutService.closeCheckoutModal()" title="Đóng" aria-label="Đóng form đặt hàng">✕</button>
+      <div class="checkout-modal-content">
+        <div class="checkout-modal-header">
+          <h2 id="checkout-modal-title">Thông Tin Giao Hàng & Thanh Toán</h2>
+          <p>Vui lòng điền địa chỉ chính xác để vườn đóng gói và gửi cây an toàn nhất</p>
+        </div>
+
+        <form id="checkout-form" class="checkout-form-grid">
+          <!-- Cột nhập thông tin -->
+          <div class="checkout-fields">
+            <div class="form-group">
+              <label for="customer-name">Họ và tên người nhận *</label>
+              <input type="text" id="customer-name" class="form-control" placeholder="Ví dụ: Nguyễn Văn A" required />
+            </div>
+
+            <div class="form-group">
+              <label for="customer-phone">Số điện thoại *</label>
+              <input type="tel" id="customer-phone" class="form-control" placeholder="Ví dụ: 0912345678" required />
+            </div>
+
+            <div class="form-group">
+              <label for="customer-address">Địa chỉ nhận hàng chi tiết *</label>
+              <textarea id="customer-address" class="form-control" rows="2" placeholder="Số nhà, ngõ/ngách, tên đường, phường/xã, quận/huyện..." required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="customer-note">Ghi chú thêm cho shop (tùy chọn)</label>
+              <input type="text" id="customer-note" class="form-control" placeholder="Ví dụ: Giao giờ hành chính, viết thiệp mừng sinh nhật..." />
+            </div>
+
+            <!-- Phương thức thanh toán -->
+            <div class="payment-methods-group">
+              <h4>Phương thức thanh toán:</h4>
+              
+              <label class="payment-method-card">
+                <input type="radio" name="paymentMethod" value="vietqr" checked />
+                <div>
+                  <strong>Chuyển khoản VietQR (Tự sinh mã QR ngân hàng)</strong>
+                  <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0;">Quét mã QR bằng mọi app ngân hàng (MB, VCB, Momo...), tiện lợi và chính xác 100%</p>
+                </div>
+              </label>
+
+              <label class="payment-method-card">
+                <input type="radio" name="paymentMethod" value="cod" />
+                <div>
+                  <strong>Thanh toán khi nhận hàng (COD)</strong>
+                  <p style="font-size: 0.78rem; color: var(--text-muted); margin: 0;">Kiểm tra kiện cây tươi tốt trước khi trả tiền cho bưu tá</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Cột tóm tắt tiền -->
+          <div class="checkout-summary-box">
+            <h4>Tóm tắt đơn hàng</h4>
+            <div class="price-summary-breakdown">
+              <div class="summary-row">
+                <span>Tiền hàng:</span>
+                <span id="checkout-subtotal">0 đ</span>
+              </div>
+              <div class="summary-row">
+                <span>Phí vận chuyển:</span>
+                <span id="checkout-shipping">25.000 đ</span>
+              </div>
+              <div class="summary-row" id="checkout-discount-row" style="display: none; color: var(--success);">
+                <span>Giảm voucher:</span>
+                <span id="checkout-discount">-0 đ</span>
+              </div>
+              <div class="summary-row total-row">
+                <span>Cần thanh toán:</span>
+                <strong class="highlight-price" id="checkout-total">0 đ</strong>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 10px;">
+              Xác Nhận Đặt Hàng
+            </button>
+            <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 10px;">
+              🔒 Thông tin đơn được lưu trữ an toàn ngay trên trình duyệt của bạn
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       8. MODAL ĐẶT HÀNG THÀNH CÔNG & VIETQR / CHỐT ĐƠN ZALO
+       =================================================== -->
+  <div class="modal-overlay" id="order-success-modal" role="dialog" aria-modal="true" aria-labelledby="order-success-title">
+    <div class="modal-dialog">
+      <div class="success-modal-content">
+        <div class="success-check-icon" aria-hidden="true">✓</div>
+        <h2 id="order-success-title">Đặt Hàng Thành Công!</h2>
+        <p style="color: var(--text-muted); margin-bottom: 8px;">Cảm ơn bạn đã lựa chọn Sen Đá House. Đơn hàng của bạn đã được ghi nhận.</p>
+        <span class="order-code-badge">Mã đơn: <strong id="success-order-id">SDH-00000</strong></span>
+
+        <!-- Tóm tắt người nhận -->
+        <div style="background: var(--bg-subtle); padding: 12px 18px; border-radius: var(--radius-sm); text-align: left; font-size: 0.85rem; margin-bottom: 16px;">
+          <p><strong>Khách hàng:</strong> <span id="success-customer-name"></span> (<span id="success-customer-phone"></span>)</p>
+          <p><strong>Địa chỉ nhận:</strong> <span id="success-customer-address"></span></p>
+          <p><strong>Hình thức:</strong> <span id="success-payment-method"></span></p>
+          <p><strong>Tổng tiền:</strong> <strong style="color: var(--primary);" id="success-order-total"></strong></p>
+        </div>
+
+        <!-- Khung quét mã VietQR tự động -->
+        <div class="vietqr-box" id="vietqr-container">
+          <h4 style="color: var(--primary); margin-bottom: 4px;">Quét Mã VietQR Để Thanh Toán</h4>
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">Mở ứng dụng ngân hàng bất kỳ để quét mã (Đã có sẵn số tiền & nội dung)</p>
+          <img id="vietqr-image" class="vietqr-img" src="" alt="Mã VietQR thanh toán" />
+          
+          <div class="qr-info-table">
+            <p><span>Ngân hàng:</span> <strong id="qr-bank-name">MBBank</strong></p>
+            <p><span>Số tài khoản:</span> <strong id="qr-account-no">098765432188</strong></p>
+            <p><span>Chủ tài khoản:</span> <strong id="qr-account-name">NGUYEN VAN A</strong></p>
+            <p><span>Số tiền:</span> <strong id="qr-amount">0 đ</strong></p>
+            <p><span>Nội dung CK:</span> <strong id="qr-content" style="color: var(--danger);">SDH-XXXXX</strong></p>
+          </div>
+        </div>
+
+        <!-- Nút Gửi đơn qua Zalo tiện lợi -->
+        <div class="zalo-cta-box">
+          <div class="zalo-cta-info">
+            <h4>💬 Chốt đơn trực tiếp qua Zalo với Vườn</h4>
+            <p>Bấm để tự động sao chép mã đơn và gửi tin nhắn Zalo chốt đơn ngay với chủ vườn</p>
+          </div>
+          <button id="btn-send-zalo" class="btn-zalo" aria-label="Gửi đơn hàng qua Zalo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            Nhắn Zalo Ngay
+          </button>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+          <button class="btn btn-secondary" onclick="CheckoutService.printOrderReceipt()">
+            🖨️ In hóa đơn
+          </button>
+          <button class="btn btn-primary" onclick="CheckoutService.closeSuccessModal(); App.renderProducts();">
+            Tiếp tục xem cây
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       9. MODAL TRA CỨU ĐƠN HÀNG (ORDER TRACKING)
+       =================================================== -->
+  <div class="modal-overlay" id="tracking-modal" role="dialog" aria-modal="true" aria-labelledby="tracking-modal-title">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" onclick="App.closeOrderTrackingModal()" aria-label="Đóng tra cứu đơn hàng">✕</button>
+      <div class="tracking-modal-content">
+        <h2 id="tracking-modal-title">Tra Cứu Đơn Hàng Đã Đặt</h2>
+        <p>Nhập số điện thoại hoặc mã đơn hàng của bạn để kiểm tra trạng thái</p>
+
+        <div class="tracking-search-bar">
+          <input type="text" id="tracking-input" class="form-control" placeholder="Nhập SĐT hoặc mã đơn (VD: 0912345678, SDH-98214)..." oninput="App.searchOrders(this.value)" aria-label="Số điện thoại hoặc mã đơn hàng" />
+        </div>
+
+        <div class="tracking-results-list" id="tracking-results-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <div class="brand-logo-icon">🌱</div>
+            <div class="brand-text">
+              <h2 style="font-size: 1.25rem;">Sen Đá House</h2>
+              <span>Vườn Xanh Để Bàn</span>
+            </div>
+          </div>
+          <p>Chuyên cung cấp các dòng sen đá, xương rồng thuần khí hậu, chậu gốm mộc Bát Tràng và phụ kiện trồng cây chuyên dụng cho bàn làm việc, văn phòng.</p>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">
+            📍 124 Vườn Cảnh Xanh, Cầu Giấy, Hà Nội<br />
+            📞 Hotline / Zalo: 0987.654.321
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Danh Mục Nổi Bật</h4>
+          <ul>
+            <li><a href="javascript:void(0)" onclick="App.activeCategory='sen-da'; App.renderProducts(); document.getElementById('catalog-section').scrollIntoView();">Sen Đá Độc Lạ</a></li>
+            <li><a href="javascript:void(0)" onclick="App.activeCategory='xuong-rong'; App.renderProducts(); document.getElementById('catalog-section').scrollIntoView();">Xương Rồng Mini</a></li>
+            <li><a href="javascript:void(0)" onclick="App.activeCategory='combo'; App.renderProducts(); document.getElementById('catalog-section').scrollIntoView();">Combo Quà Tặng</a></li>
+            <li><a href="javascript:void(0)" onclick="App.activeCategory='phu-kien'; App.renderProducts(); document.getElementById('catalog-section').scrollIntoView();">Chậu Gốm & Đất Trồng</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Chính Sách & Hỗ Trợ</h4>
+          <ul>
+            <li><a href="javascript:void(0)" onclick="App.openOrderTrackingModal()">Tra cứu đơn hàng</a></li>
+            <li><a href="javascript:void(0)">Chính sách bảo hành cây 100%</a></li>
+            <li><a href="javascript:void(0)">Cẩm nang chăm sóc sen đá</a></li>
+            <li><a href="javascript:void(0)" onclick="StorageService.resetToDefaults()">Khôi phục dữ liệu demo ban đầu</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quản Lý Cửa Hàng</h4>
+          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;">Truy cập trang Admin để xem danh sách đơn hàng đã đặt và quản lý sản phẩm.</p>
+          <a href="admin.html" class="btn btn-primary" style="font-size: 0.84rem; padding: 8px 16px;">
+            Mở Bảng Admin Demo ➔
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Sen Đá House. Website tĩnh chạy 100% Client-side bằng LocalStorage, tối ưu cho GitHub Pages.</span>
+        <span>Made with 💚 for plant lovers</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Nút bấm quay lên đầu trang -->
+  <button id="back-to-top-btn" class="back-to-top" title="Lên đầu trang" aria-label="Cuộn lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  </button>
+
+  <!-- Container hiển thị thông báo Toast -->
+  <div id="toast-container" role="status" aria-live="polite"></div>
+
+  <!-- Các Script JavaScript theo thứ tự nạp -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/checkout.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
