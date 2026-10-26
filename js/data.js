@@ -315,9 +315,10 @@ const INITIAL_PRODUCTS = [
       "Nước trà vàng mật ong ánh xanh, vị chát dịu ngọt hậu sâu lắng",
       "Thanh lọc tinh thần, tăng khả năng tập trung sáng tạo"
     ],
-    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
+    image: "https://www.tita.art/wp-content/uploads/2023/08/tra-gao-sen-titaart6.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80"
+      "https://www.tita.art/wp-content/uploads/2023/08/tra-gao-sen-titaart6.jpg",
+      "https://www.tita.art/wp-content/uploads/2023/08/tra-gao-sen-titaart6.jpg"
     ],
     shortDesc: "Cần tới 1.200 bông sen bách diệp để tách hạt gạo hương, ướp và sấy chậm 7 lần công phu.",
     description: "Hạt gạo sen chính là 'túi hương' màu trắng sữa nằm ở đầu mỗi nhụy hoa sen. Để làm ra 1kg Trà Ướp Gạo Sen Bách Liên cần sự nhẫn nại phi thường của các nghệ nhân: tách từng hạt gạo sen và trải qua 7 lần ướp – sấy nối tiếp để hương sen thấm sâu vào từng búp trà."
@@ -353,9 +354,10 @@ const INITIAL_PRODUCTS = [
       "Thiết kế hộp quà tôn vinh nét đẹp văn hóa và di sản sen Kim Liên",
       "Mang trọn vẹn thông điệp an khang, thanh khiết và bền vững"
     ],
-    image: "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOIKbQfU6E927Gk-ltdYGRSToUbqbJx3i0Za641wXeAQ&s=10",
     gallery: [
-      "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOIKbQfU6E927Gk-ltdYGRSToUbqbJx3i0Za641wXeAQ&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOIKbQfU6E927Gk-ltdYGRSToUbqbJx3i0Za641wXeAQ&s=10"
     ],
     shortDesc: "Bộ quà biếu cao cấp kết hợp Trà Sen Bông, Hạt Sen Sấy, Trà Tâm Sen và Bánh Cà truyền thống trong hộp gỗ sơn mài.",
     description: "Hộp Quà 'Bách Liên Đoàn Viên' là món quà trang trọng nhất của HTX Bách Liên dành cho các sự kiện văn hóa, đại hội và hội nghị. Từng sản phẩm bên trong đều đạt chứng nhận OCOP quốc gia, đại diện cho tình cảm nồng ấm và sự hiếu khách của người dân vùng đất Làng Sen quê Bác."
