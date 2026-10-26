@@ -69,10 +69,10 @@ const INITIAL_PRODUCTS = [
       "Giàu protein thực vật, canxi, phốt pho bồi bổ cơ thể",
       "Tốt cho tim mạch, trẻ nhỏ, phụ nữ mang thai và người ăn kiêng"
     ],
-    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsb1y_N8_upd8kH3QZuyQ6VQSkRHLxaT1WUqStgM7ypqFKlHzXW0x6Sic-&s=10",
     gallery: [
-      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsb1y_N8_upd8kH3QZuyQ6VQSkRHLxaT1WUqStgM7ypqFKlHzXW0x6Sic-&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsb1y_N8_upd8kH3QZuyQ6VQSkRHLxaT1WUqStgM7ypqFKlHzXW0x6Sic-&s=10"
     ],
     shortDesc: "Hạt sen quê Bác tròn căng, sấy lạnh thăng hoa giòn xốp tự nhiên, vị bùi béo ngọt hậu đậm đà.",
     description: "Hạt Sen Sấy Giòn Bách Liên đạt chuẩn OCOP 4 sao tỉnh Nghệ An. Ứng dụng công nghệ sấy thăng hoa hiện đại giúp hạt sen nở xốp giòn tan mà hoàn toàn không tẩm ướp phụ gia hay chiên ngập dầu, giữ trọn hàm lượng vitamin và khoáng chất tự nhiên."
@@ -104,10 +104,10 @@ const INITIAL_PRODUCTS = [
       "Chất chống oxy hóa tự nhiên cao, tinh thần thư thái nhẹ nhõm",
       "Trải nghiệm nghệ thuật thưởng trà cung đình truyền thống"
     ],
-    image: "https://images.unsplash.com/photo-1508873696983-2df57046475a?auto=format&fit=crop&w=800&q=80",
+    image: "https://media-cdn-v2.laodong.vn/storage/newsportal/2025/5/12/1505484/A7_Optimized.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1508873696983-2df57046475a?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&w=800&q=80"
+      "https://media-cdn-v2.laodong.vn/storage/newsportal/2025/5/12/1505484/A7_Optimized.jpg",
+      "https://media-cdn-v2.laodong.vn/storage/newsportal/2025/5/12/1505484/A7_Optimized.jpg"
     ],
     shortDesc: "Trà Shan Tuyết Đinh thượng hạng ướp trọn trong đóa sen bách diệp tươi sương sớm, hút chân không từng bông.",
     description: "Được mệnh danh là 'Đệ nhất ẩm thực trà xứ Nghệ', mỗi đóa trà bông sen Bách Liên được những nghệ nhân làng sen chèo xuồng ra đầm lúc 5 giờ sáng, ướp từng lạng trà đinh non vào giữa nhụy hoa lúc cánh vừa hé mở đón sương mai, bọc kín bằng lá sen tươi và cấp đông nhanh chuẩn ISO."
@@ -211,9 +211,9 @@ const INITIAL_PRODUCTS = [
       "Dưỡng ẩm làn da, làm dịu tâm trạng mệt mỏi căng thẳng",
       "Cân bằng năng lượng tích cực cho cơ thể"
     ],
-    image: "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=800&q=80",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT__zERAr1dwRvSgOufFhuaS-8CqV8Wezg30KDgk6SnO4WxAVHbeBbdF3Y&s=10",
     gallery: [
-      "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=800&q=80"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT__zERAr1dwRvSgOufFhuaS-8CqV8Wezg30KDgk6SnO4WxAVHbeBbdF3Y&s=10"
     ],
     shortDesc: "Tuyển chọn từ giống sen trắng cổ quý hiếm, sấy thăng hoa giữ nguyên phom hoa và hương thơm quý phái.",
     description: "Bạch Liên Nữ Vương là dòng trà hoa nghệ thuật độc đáo của HTX Bách Liên. Hoa sen trắng sau khi thu hái được đưa ngay vào buồng sấy thăng hoa chân không để giữ trọn vẹn cánh hoa trắng muốt và hương thơm dịu mát đặc trưng."
@@ -245,9 +245,10 @@ const INITIAL_PRODUCTS = [
       "Cung cấp năng lượng lành mạnh cho dân văn phòng, học sinh",
       "Không chất bảo quản, không phẩm màu tổng hợp"
     ],
-    image: "https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&w=800&q=80",
+    image: "https://sentruongphat.com/wp-content/uploads/2022/01/Sen-rang-bo-04.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&w=800&q=80"
+      "https://sentruongphat.com/wp-content/uploads/2022/01/Sen-rang-bo-04.jpg",
+      "https://sentruongphat.com/wp-content/uploads/2022/01/Sen-rang-bo-04.jpg"
     ],
     shortDesc: "Hạt sen giòn tan phủ bơ Pháp thơm ngậy và mật ong hoa sen ngọt thanh, món ăn vặt dinh dưỡng.",
     description: "Từng hạt sen tươi bóc vỏ, tách tâm được sấy giòn rồi áo một lớp bơ nguyên chất quyện cùng mật ong thu hoạch từ chính đầm hoa sen mùa nở rộ. Vị ngọt vừa vặn, béo bùi kích thích vị giác mọi lứa tuổi."
@@ -279,9 +280,10 @@ const INITIAL_PRODUCTS = [
       "Món quà tuổi thơ mang đậm bản sắc văn hóa ẩm thực xứ Nghệ",
       "Ít ngọt, dễ ăn, tốt cho tiêu hóa"
     ],
-    image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=800&q=80",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB6ah4HFca1pbNatvB8DoxeYH3ynZeiVDnNMcdi6dSk5dseTXcUlT4CUQ&s=10",
     gallery: [
-      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=800&q=80"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB6ah4HFca1pbNatvB8DoxeYH3ynZeiVDnNMcdi6dSk5dseTXcUlT4CUQ&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB6ah4HFca1pbNatvB8DoxeYH3ynZeiVDnNMcdi6dSk5dseTXcUlT4CUQ&s=10"
     ],
     shortDesc: "Đặc sản bánh cà giòn xốp trứ danh xứ Nghệ kết hợp bột hạt sen Kim Liên thơm lừng, giòn rụm khó cưỡng.",
     description: "Bánh cà là thức quà truyền thống nổi tiếng của vùng đất Nam Đàn. HTX Bách Liên đã nâng tầm món bánh dân dã bằng việc bổ sung bột hạt sen sấy lạnh nguyên chất cùng trứng gà ta và đường mía tự nhiên, tạo nên viên bánh tròn vàng ruộm, giòn tan trong miệng."

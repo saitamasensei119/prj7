@@ -1,6 +1,50 @@
 // Module giao diện chính & điều hướng HTX Sen Bách Liên (app.js)
 // Thương hiệu: Bách Liên - "Hương sen quê Bác"
 
+// ==========================================
+// HÀM CHUẨN HÓA TIẾNG VIỆT & TÌM KIẾM ĐA NĂNG
+// Hỗ trợ cả có dấu, không dấu, Unicode NFC/NFD, chữ hoa & thường
+// ==========================================
+function normalizeVietnamese(str) {
+  if (!str) return "";
+  return str.normalize("NFC").toLowerCase().trim();
+}
+
+function stripVietnameseTones(str) {
+  if (!str) return "";
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toLowerCase()
+    .trim();
+}
+
+function matchVietnameseSearch(targetText, query) {
+  if (!query) return true;
+  if (!targetText) return false;
+
+  const normTarget = normalizeVietnamese(targetText);
+  const normQuery = normalizeVietnamese(query);
+
+  // 1. Khớp có dấu sau khi chuẩn hóa Unicode NFC & chữ thường (Khắc phục triệt để lỗi gõ bộ gõ tổ hợp)
+  if (normTarget.includes(normQuery)) return true;
+
+  // 2. Khớp không dấu (ví dụ: gõ 'bach lien' tìm ra cả 'Bách Liên' và 'Bạch Liên')
+  const stripTarget = stripVietnameseTones(targetText);
+  const stripQuery = stripVietnameseTones(query);
+  if (stripTarget.includes(stripQuery)) return true;
+
+  // 3. Tách từ đơn: gõ "tra sen", "hat sen", "bach lien"
+  const tokens = stripQuery.split(/\s+/).filter(Boolean);
+  if (tokens.length > 1) {
+    return tokens.every(token => stripTarget.includes(token));
+  }
+
+  return false;
+}
+
 const App = {
   activeCategory: "all",
   activePriceRange: "all",
@@ -75,16 +119,25 @@ const App = {
       products = products.filter(p => p.ocopStars === 3);
     }
 
-    // Lọc từ khóa tìm kiếm
+    // Lọc từ khóa tìm kiếm thông minh (khớp cả có dấu, không dấu, Unicode NFC/NFD, hoa/thường)
     if (this.searchKeyword) {
-      const kw = this.searchKeyword.toLowerCase().trim();
-      products = products.filter(p => 
-        p.name.toLowerCase().includes(kw) || 
-        (p.scientificName && p.scientificName.toLowerCase().includes(kw)) ||
-        (p.categoryName && p.categoryName.toLowerCase().includes(kw)) ||
-        (p.shortDesc && p.shortDesc.toLowerCase().includes(kw)) ||
-        (p.description && p.description.toLowerCase().includes(kw))
-      );
+      const kw = this.searchKeyword;
+      products = products.filter(p => {
+        const searchableContent = [
+          p.name,
+          p.scientificName,
+          p.categoryName,
+          p.tag,
+          p.shortDesc,
+          p.description,
+          p.origin,
+          p.processMethod,
+          p.packing,
+          ...(p.benefits || [])
+        ].filter(Boolean).join(" ");
+
+        return matchVietnameseSearch(searchableContent, kw);
+      });
     }
 
     // Sắp xếp
@@ -415,7 +468,7 @@ const App = {
     if (modal) {
       modal.classList.add("modal-open");
       document.body.style.overflow = "hidden";
-      const input = document.getElementById("tracking-phone-input");
+      const input = document.getElementById("tracking-input");
       if (input) input.focus();
     }
   },
@@ -426,29 +479,34 @@ const App = {
     document.body.style.overflow = "";
   },
 
-  handleOrderTrackingSubmit(e) {
-    e.preventDefault();
-    const phoneInput = document.getElementById("tracking-phone-input");
-    const resultBox = document.getElementById("tracking-results-box");
-    if (!phoneInput || !resultBox) return;
+  // Tra cứu đơn hàng theo SĐT, Mã đơn hoặc Tên khách
+  searchOrders(query) {
+    const resultBox = document.getElementById("tracking-results-list");
+    if (!resultBox) return;
 
-    const phone = phoneInput.value.trim();
-    if (!phone) return;
+    const q = (query || "").trim();
+    if (!q) {
+      resultBox.innerHTML = "";
+      return;
+    }
 
     const allOrders = StorageService.getOrders();
-    const matched = allOrders.filter(o => o.customer && o.customer.phone === phone);
+    const matched = allOrders.filter(o => {
+      const target = `${o.id} ${o.customer?.name || ""} ${o.customer?.phone || ""} ${o.customer?.address || ""}`;
+      return matchVietnameseSearch(target, q);
+    });
 
     if (matched.length === 0) {
       resultBox.innerHTML = `
         <div style="text-align: center; padding: 24px; color: var(--text-muted);">
-          <p>Không tìm thấy đơn hàng nào với số điện thoại <strong>${phone}</strong>.</p>
+          <p>Không tìm thấy đơn hàng nào khớp với: <strong>${q}</strong></p>
         </div>
       `;
       return;
     }
 
     resultBox.innerHTML = `
-      <h4 style="margin-bottom: 12px; font-size: 0.95rem;">Tìm thấy ${matched.length} đơn hàng của bạn:</h4>
+      <h4 style="margin-bottom: 12px; font-size: 0.95rem;">Tìm thấy ${matched.length} đơn hàng:</h4>
       <div style="display: flex; flex-direction: column; gap: 12px;">
         ${matched.map(o => `
           <div style="border: 1px solid var(--surface-border); border-radius: var(--radius-sm); padding: 14px; background: var(--bg-subtle);">
@@ -458,11 +516,14 @@ const App = {
                 ${o.status === 'completed' ? 'Đã giao' : o.status === 'shipping' ? 'Đang giao' : 'Đang xử lý'}
               </span>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;">
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px;">
+              Khách hàng: <strong>${o.customer?.name}</strong> (${o.customer?.phone})
+            </p>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 6px;">
               Ngày đặt: ${formatDateTime(o.createdAt)}
             </p>
             <p style="font-size: 0.9rem; font-weight: 700; color: var(--primary);">
-              Tổng: ${formatCurrency(o.total)} (${o.items.length} món)
+              Tổng: ${formatCurrency(o.total)} (${o.items?.length || 0} món)
             </p>
           </div>
         `).join("")}
@@ -481,7 +542,15 @@ const App = {
         debounceTimer = setTimeout(() => {
           this.searchKeyword = e.target.value;
           this.renderProducts();
-        }, 120);
+        }, 80);
+      });
+
+      // Nhấn Enter tự cuộn xuống phần sản phẩm
+      searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          document.getElementById("catalog-section")?.scrollIntoView({ behavior: "smooth" });
+        }
       });
     }
 
