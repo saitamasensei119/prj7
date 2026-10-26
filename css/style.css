@@ -387,14 +387,14 @@ img {
   background: #172b22;
   color: white;
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 4fr 6fr; /* Phần màu xanh đậm chiếm đúng 4/10 (40%), ảnh chiếm 6/10 (60%) */
   align-items: center;
   box-shadow: var(--shadow-lg);
   min-height: 420px;
 }
 
 .hero-content {
-  padding: 48px;
+  padding: 40px 32px 40px 44px;
   z-index: 2;
 }
 
@@ -406,19 +406,19 @@ img {
   border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 6px 14px;
   border-radius: var(--radius-full);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   color: #b7e4c7;
 }
 
 .hero-title {
   font-family: var(--font-serif);
-  font-size: 2.75rem;
+  font-size: clamp(1.85rem, 2.3vw, 2.45rem);
   font-weight: 700;
-  line-height: 1.15;
-  margin-bottom: 16px;
+  line-height: 1.2;
+  margin-bottom: 14px;
 }
 
 .hero-title span {
@@ -427,16 +427,18 @@ img {
 }
 
 .hero-desc {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   color: #d1e7dd;
-  margin-bottom: 28px;
-  max-width: 520px;
+  margin-bottom: 24px;
+  line-height: 1.55;
+  max-width: 440px;
 }
 
 .hero-actions {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .hero-image-wrap {
@@ -460,7 +462,9 @@ img {
 .hero-overlay-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #172b22 0%, rgba(23, 43, 34, 0.4) 60%, transparent 100%);
+  /* Lớp phủ siêu mỏng chỉ ở mép nối 15%, trả lại ánh sáng tự nhiên rực rỡ cho ảnh đầm sen */
+  background: linear-gradient(90deg, #172b22 0%, rgba(23, 43, 34, 0.15) 6%, transparent 18%);
+  pointer-events: none;
 }
 
 /* USP Badges Bar */
