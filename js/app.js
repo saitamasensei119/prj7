@@ -24,6 +24,21 @@ const App = {
     this.bindEvents();
     this.setupBackToTop();
     this.setupTourDefaults();
+    this.setupGroupDefaults();
+  },
+
+  setupGroupDefaults() {
+    const groupDateInput = document.getElementById("group-date");
+    if (groupDateInput) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const minDate = tomorrow.toISOString().split("T")[0];
+      groupDateInput.min = minDate;
+      if (!groupDateInput.value) {
+        groupDateInput.value = minDate;
+      }
+      this.calcGroupEstimate();
+    }
   },
 
   // Khởi tạo chế độ Sáng / Tối
@@ -156,7 +171,7 @@ const App = {
             <p class="product-scientific">${product.scientificName || "Hương sen quê Bác"}</p>
             
             <div class="product-meta-pills">
-              <span class="meta-pill" title="Công nghệ sơ chế">❄️ Sấy lạnh</span>
+              <span class="meta-pill" title="Công nghệ / Loại hình">${product.category === 'hoc-cu-diy' ? '🎨 Tự làm DIY' : '❄️ Sấy lạnh'}</span>
               <span class="meta-pill" title="Quy cách đóng gói">📦 ${product.packing ? product.packing.split(' ')[0] + ' ' + (product.packing.split(' ')[1] || '') : "Hộp chuẩn"}</span>
             </div>
 
@@ -210,7 +225,11 @@ const App = {
     
     // Cập nhật thông số nông sản OCOP
     const diffEl = document.getElementById("qv-difficulty");
-    if (diffEl) diffEl.textContent = product.ocopStars ? `OCOP ${product.ocopStars} Sao` : "Đạt Chuẩn VietGAP";
+    if (diffEl) {
+      diffEl.textContent = product.ocopStars 
+        ? `OCOP ${product.ocopStars} Sao` 
+        : (product.category === "hoc-cu-diy" ? "Học Cụ Sáng Tạo" : "Đạt Chuẩn VietGAP");
+    }
     
     const lightEl = document.getElementById("qv-light");
     if (lightEl) lightEl.textContent = product.origin || "Xã Kim Liên, Nam Đàn, Nghệ An";
@@ -607,6 +626,128 @@ const App = {
     btn.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
+  },
+
+  // ==========================================
+  // XỬ LÝ ĐĂNG KÝ TRẢI NGHIỆM KHÁCH ĐOÀN (TRAI-NGHIEM.HTML)
+  // ==========================================
+  calcGroupEstimate() {
+    const studentInput = document.getElementById("group-student-count");
+    const packageSelect = document.getElementById("group-package");
+    const totalEl = document.getElementById("estimate-total");
+    if (!studentInput || !packageSelect || !totalEl) return;
+
+    const count = Math.max(1, parseInt(studentInput.value) || 0);
+    const pkg = packageSelect.value;
+    let pricePerStudent = 260000;
+    if (pkg === "nua-ngay") pricePerStudent = 180000;
+    else if (pkg === "stem") pricePerStudent = 250000;
+
+    const total = count * pricePerStudent;
+    totalEl.textContent = formatCurrency(total);
+    return total;
+  },
+
+  selectPackageOption(packageVal, packageName) {
+    const packageSelect = document.getElementById("group-package");
+    if (packageSelect) {
+      packageSelect.value = packageVal;
+      this.calcGroupEstimate();
+    }
+    const section = document.getElementById("group-booking-section");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  },
+
+  handleGroupBookingSubmit(e) {
+    e.preventDefault();
+    const orgName = document.getElementById("group-org-name")?.value.trim();
+    const leaderName = document.getElementById("group-leader-name")?.value.trim();
+    const phone = document.getElementById("group-phone")?.value.trim();
+    const email = document.getElementById("group-email")?.value.trim() || "";
+    const visitDate = document.getElementById("group-date")?.value;
+    const studentCount = parseInt(document.getElementById("group-student-count")?.value) || 0;
+    const teacherCount = parseInt(document.getElementById("group-teacher-count")?.value) || 0;
+    const packageSelect = document.getElementById("group-package");
+    const packageType = packageSelect?.value || "tron-ngay";
+    const packageName = packageSelect?.options[packageSelect.selectedIndex]?.text || "Gói Trọn Vẹn";
+    const notes = document.getElementById("group-notes")?.value.trim() || "";
+    const estimatedTotal = this.calcGroupEstimate() || 0;
+
+    if (!orgName || !leaderName || !phone || !visitDate) {
+      alert("Vui lòng điền đầy đủ các thông tin bắt buộc (*)");
+      return;
+    }
+
+    const bookingId = "DOAN-2026-" + Math.floor(100 + Math.random() * 900);
+    const bookingData = {
+      id: bookingId,
+      createdAt: new Date().toISOString(),
+      orgName,
+      leaderName,
+      phone,
+      email,
+      visitDate,
+      packageType,
+      packageName,
+      studentCount,
+      teacherCount,
+      estimatedTotal,
+      specialRequests: notes,
+      status: "pending"
+    };
+
+    StorageService.addGroupBooking(bookingData);
+
+    // Cập nhật giao diện modal xác nhận
+    const resBookingId = document.getElementById("res-booking-id");
+    const resOrgName = document.getElementById("res-org-name");
+    const resLeaderName = document.getElementById("res-leader-name");
+    const resPhone = document.getElementById("res-phone");
+    const resPackage = document.getElementById("res-package");
+    const resCounts = document.getElementById("res-counts");
+    const resTotal = document.getElementById("res-total");
+
+    if (resBookingId) resBookingId.textContent = bookingId;
+    if (resOrgName) resOrgName.textContent = orgName;
+    if (resLeaderName) resLeaderName.textContent = leaderName;
+    if (resPhone) resPhone.textContent = phone;
+    if (resPackage) resPackage.textContent = packageName;
+    if (resCounts) resCounts.textContent = `${studentCount} học sinh/khách + ${teacherCount} giáo viên`;
+    if (resTotal) resTotal.textContent = formatCurrency(estimatedTotal);
+
+    // Tạo link Zalo tư vấn với nội dung chuẩn bị sẵn
+    const zaloBtn = document.getElementById("res-zalo-btn");
+    if (zaloBtn) {
+      const zaloMsg = encodeURIComponent(
+        `Chào HTX Sen Bách Liên, tôi là ${leaderName} đại diện ${orgName} (SĐT: ${phone}). Tôi vừa gửi phiếu đăng ký trải nghiệm đoàn mã ${bookingId} vào ngày ${visitDate} (${studentCount} học sinh, ${packageName}). Nhờ HTX gửi kế hoạch chi tiết và dự toán kinh phí giúp tôi nhé!`
+      );
+      zaloBtn.href = `https://zalo.me/0988123456?text=${zaloMsg}`;
+    }
+
+    // Hiển thị modal
+    const modal = document.getElementById("group-success-modal");
+    const backdrop = document.getElementById("group-success-backdrop");
+    if (modal && backdrop) {
+      modal.classList.add("open");
+      backdrop.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    // Reset form
+    e.target.reset();
+    this.calcGroupEstimate();
+  },
+
+  closeGroupSuccessModal() {
+    const modal = document.getElementById("group-success-modal");
+    const backdrop = document.getElementById("group-success-backdrop");
+    if (modal && backdrop) {
+      modal.classList.remove("open");
+      backdrop.classList.remove("open");
+      document.body.style.overflow = "";
+    }
   }
 };
 

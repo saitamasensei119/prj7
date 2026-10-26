@@ -8,6 +8,7 @@ const AdminApp = {
     this.renderKPIs();
     this.renderOrdersTable();
     this.renderToursTable();
+    this.renderGroupBookings();
     this.renderProductsTable();
     this.bindEvents();
   },
@@ -16,6 +17,7 @@ const AdminApp = {
   renderKPIs() {
     const orders = StorageService.getOrders();
     const tours = StorageService.getTours();
+    const groups = StorageService.getGroupBookings();
     const products = StorageService.getProducts();
 
     const orderRevenue = orders.reduce((sum, o) => {
@@ -26,12 +28,17 @@ const AdminApp = {
       return t.status !== "cancelled" ? sum + (t.total || 0) : sum;
     }, 0);
 
+    const groupRevenue = groups.reduce((sum, g) => {
+      return g.status !== "cancelled" ? sum + (g.estimatedTotal || 0) : sum;
+    }, 0);
+
     const pendingOrdersCount = orders.filter(o => o.status === "processing").length;
     const totalTourGuests = tours.reduce((sum, t) => sum + (t.adults || 0) + (t.children || 0), 0);
+    const totalStudents = groups.reduce((sum, g) => sum + (g.studentCount || 0), 0);
 
-    document.getElementById("kpi-revenue").textContent = formatCurrency(orderRevenue + tourRevenue);
+    document.getElementById("kpi-revenue").textContent = formatCurrency(orderRevenue + tourRevenue + groupRevenue);
     document.getElementById("kpi-orders-count").textContent = `${orders.length} đơn`;
-    document.getElementById("kpi-pending-count").textContent = `${tours.length} đoàn (${totalTourGuests} khách)`;
+    document.getElementById("kpi-pending-count").textContent = `${tours.length} tour • ${groups.length} đoàn (${totalStudents} HS)`;
     document.getElementById("kpi-products-count").textContent = `${products.length} sản phẩm`;
   },
 
@@ -193,6 +200,95 @@ const AdminApp = {
     CartService.showToast(`Đã cập nhật trạng thái vé ${tourId}!`, "success");
   },
 
+  // ==========================================
+  // HIỂN THỊ BẢNG ĐĂNG KÝ TRẢI NGHIỆM KHÁCH ĐOÀN
+  // ==========================================
+  renderGroupBookings(filterStatus = "all") {
+    const tbody = document.getElementById("admin-groups-tbody");
+    if (!tbody) return;
+
+    const selectEl = document.getElementById("admin-group-filter");
+    if (selectEl && filterStatus === "all") {
+      filterStatus = selectEl.value;
+    }
+
+    let groups = StorageService.getGroupBookings();
+    if (filterStatus !== "all") {
+      groups = groups.filter(g => g.status === filterStatus);
+    }
+
+    if (groups.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            Chưa có đoàn trường học / cơ quan nào trong mục này.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    const groupStatusOptions = [
+      { val: "pending", label: "Chờ xác nhận" },
+      { val: "confirmed", label: "Đã xác nhận" },
+      { val: "completed", label: "Đã hoàn thành" },
+      { val: "cancelled", label: "Đã hủy" }
+    ];
+
+    tbody.innerHTML = groups.map(g => {
+      const visitFormattedDate = g.visitDate ? new Date(g.visitDate).toLocaleDateString("vi-VN", { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' }) : "Chưa chọn";
+
+      return `
+        <tr>
+          <td>
+            <strong style="color: var(--primary);">${g.id}</strong>
+            <br/><small style="color: var(--text-light);">${formatDateTime(g.createdAt)}</small>
+          </td>
+          <td>
+            <strong style="font-size: 0.95rem;">${g.orgName}</strong>
+            ${g.specialRequests ? `<br/><small style="color: var(--accent); font-style: italic;">Yêu cầu: ${g.specialRequests}</small>` : ""}
+          </td>
+          <td>
+            <strong>${g.leaderName}</strong>
+            <br/><span style="color: var(--primary); font-size: 0.82rem;">📞 ${g.phone}</span>
+            ${g.email ? `<br/><small style="color: var(--text-muted);">✉️ ${g.email}</small>` : ""}
+          </td>
+          <td>
+            <strong style="color: var(--primary);">📅 ${visitFormattedDate}</strong>
+          </td>
+          <td style="font-size: 0.85rem;">
+            ${g.packageName}
+          </td>
+          <td>
+            <strong>${g.studentCount}</strong> Học sinh/Khách
+            ${g.teacherCount > 0 ? `<br/><small style="color: var(--text-muted);">${g.teacherCount} Giáo viên</small>` : ""}
+          </td>
+          <td>
+            <strong style="color: var(--primary); font-size: 1rem;">${formatCurrency(g.estimatedTotal)}</strong>
+          </td>
+          <td>
+            <select class="custom-select status-select" onchange="AdminApp.handleGroupStatusChange('${g.id}', this.value)">
+              ${groupStatusOptions.map(opt => `
+                <option value="${opt.val}" ${g.status === opt.val ? 'selected' : ''}>${opt.label}</option>
+              `).join("")}
+            </select>
+          </td>
+          <td>
+            <a href="https://zalo.me/${g.phone}" target="_blank" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px;">
+              💬 Zalo Đoàn
+            </a>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  },
+
+  handleGroupStatusChange(bookingId, newStatus) {
+    StorageService.updateGroupBookingStatus(bookingId, newStatus);
+    this.renderKPIs();
+    CartService.showToast(`Đã cập nhật trạng thái đoàn ${bookingId}!`, "success");
+  },
+
   // Hiển thị danh sách sản phẩm OCOP
   renderProductsTable() {
     const tbody = document.getElementById("admin-products-tbody");
@@ -278,7 +374,8 @@ const AdminApp = {
     const catNames = {
       "tra-sen": "Trà Sen Thượng Hạng",
       "nong-san-sen": "Nông Sản & Hạt Sen",
-      "qua-tang": "Hộp Quà Biếu OCOP"
+      "qua-tang": "Hộp Quà Biếu OCOP",
+      "hoc-cu-diy": "Bộ Học Cụ DIY Sen"
     };
 
     const newProd = {
@@ -323,16 +420,22 @@ const AdminApp = {
     CheckoutService.openSuccessModal(order);
   },
 
-  // Chuyển tab giữa Đơn Hàng, Đặt Tour & Sản Phẩm
+  // Chuyển tab giữa Đơn Hàng, Đặt Tour, Khách Đoàn & Sản Phẩm
   switchTab(tabName) {
     this.currentTab = tabName;
     document.querySelectorAll(".admin-tab-btn").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.tab === tabName);
     });
 
-    document.getElementById("admin-orders-section").style.display = tabName === "orders" ? "block" : "none";
-    document.getElementById("admin-tours-section").style.display = tabName === "tours" ? "block" : "none";
-    document.getElementById("admin-products-section").style.display = tabName === "products" ? "block" : "none";
+    const ordersSec = document.getElementById("admin-orders-section");
+    const toursSec = document.getElementById("admin-tours-section");
+    const groupsSec = document.getElementById("admin-groups-section");
+    const productsSec = document.getElementById("admin-products-section");
+
+    if (ordersSec) ordersSec.style.display = tabName === "orders" ? "block" : "none";
+    if (toursSec) toursSec.style.display = tabName === "tours" ? "block" : "none";
+    if (groupsSec) groupsSec.style.display = tabName === "groups" ? "block" : "none";
+    if (productsSec) productsSec.style.display = tabName === "products" ? "block" : "none";
   },
 
   bindEvents() {

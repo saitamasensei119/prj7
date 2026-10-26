@@ -182,6 +182,9 @@
       <button class="admin-tab-btn" data-tab="tours" onclick="AdminApp.switchTab('tours')">
         🚣 Lịch Đặt Tour "Làm Nông Dân"
       </button>
+      <button class="admin-tab-btn" data-tab="groups" onclick="AdminApp.switchTab('groups')">
+        🏛️ Đăng Ký Trải Nghiệm Khách Đoàn
+      </button>
       <button class="admin-tab-btn" data-tab="products" onclick="AdminApp.switchTab('products')">
         🪷 Quản Lý Danh Mục OCOP
       </button>
@@ -260,6 +263,46 @@
       </div>
     </section>
 
+    <!-- TAB 4: QUẢN LÝ ĐĂNG KÝ TRẢI NGHIỆM KHÁCH ĐOÀN -->
+    <section id="admin-groups-section" class="admin-card" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <h3 style="font-size: 1.15rem;">Danh Sách Đoàn Trường Học & Cơ Quan Đăng Ký Trải Nghiệm</h3>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Quản lý đăng ký 3 chủ đề văn hóa, STEM & Ví Giặm từ trang trai-nghiem.html</p>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Lọc trạng thái:</span>
+          <select id="admin-group-filter" class="custom-select" onchange="AdminApp.renderGroupBookings()">
+            <option value="all">Tất cả đoàn</option>
+            <option value="pending">Chờ xác nhận</option>
+            <option value="confirmed">Đã xác nhận</option>
+            <option value="completed">Đã hoàn thành</option>
+            <option value="cancelled">Đã hủy</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="admin-table" aria-label="Bảng danh sách đăng ký đoàn">
+          <thead>
+            <tr>
+              <th scope="col">Mã Đăng Ký</th>
+              <th scope="col">Trường Học / Đơn Vị</th>
+              <th scope="col">Trưởng Đoàn & Liên Hệ</th>
+              <th scope="col">Ngày Đi</th>
+              <th scope="col">Gói Trải Nghiệm</th>
+              <th scope="col">Số Khách</th>
+              <th scope="col">Dự Toán</th>
+              <th scope="col">Trạng Thái</th>
+              <th scope="col">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody id="admin-groups-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- TAB 3: QUẢN LÝ SẢN PHẨM OCOP -->
     <section id="admin-products-section" class="admin-card" style="display: none;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
@@ -309,6 +352,7 @@
                 <option value="tra-sen">Trà Sen Thượng Hạng</option>
                 <option value="nong-san-sen">Nông Sản & Hạt Sen</option>
                 <option value="qua-tang">Hộp Quà Biếu OCOP</option>
+                <option value="hoc-cu-diy">Bộ Học Cụ DIY Sen</option>
               </select>
             </div>
 

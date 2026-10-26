@@ -361,6 +361,80 @@ const INITIAL_PRODUCTS = [
     ],
     shortDesc: "Bộ quà biếu cao cấp kết hợp Trà Sen Bông, Hạt Sen Sấy, Trà Tâm Sen và Bánh Cà truyền thống trong hộp gỗ sơn mài.",
     description: "Hộp Quà 'Bách Liên Đoàn Viên' là món quà trang trọng nhất của HTX Bách Liên dành cho các sự kiện văn hóa, đại hội và hội nghị. Từng sản phẩm bên trong đều đạt chứng nhận OCOP quốc gia, đại diện cho tình cảm nồng ấm và sự hiếu khách của người dân vùng đất Làng Sen quê Bác."
+  },
+
+  // ==========================================
+  // BỘ HỌC CỤ TỰ THỰC HÀNH TẠI NHÀ (DIY LOTUS KITS)
+  // ==========================================
+  {
+    id: 11,
+    name: "Bộ Tự Làm Tranh Lá Sen Khô Nghệ Thuật (DIY Kit)",
+    scientificName: "DIY Lotus Leaf Art Craft Kit",
+    category: "hoc-cu-diy",
+    categoryName: "Bộ Học Cụ DIY Sen",
+    ocopStars: null,
+    price: 185000,
+    originalPrice: 230000,
+    rating: 4.9,
+    reviewsCount: 78,
+    sold: 340,
+    stock: 25,
+    tag: "Học cụ trải nghiệm • Sáng tạo tại nhà",
+    origin: "HTX Sen Bách Liên, Kim Liên, Nam Đàn, Nghệ An",
+    processMethod: "Lá sen bách diệp sấy lạnh chân không giữ nguyên vân lá tự nhiên",
+    packing: "Hộp Kraft kèm khung gỗ & phụ kiện",
+    packingOptions: [
+      { name: "Bộ Tiêu Chuẩn (Khung gỗ 20x25cm + 10 phiến lá sen sấy)", priceDelta: 0, desc: "Đầy đủ khung gỗ, keo dán, nhíp, cọ quét & sách hướng dẫn tạo hình" },
+      { name: "Bộ Nâng Cao (Khung lớn 30x40cm + Màu vẽ acrylic) (+75.000đ)", priceDelta: 75000, desc: "Khung tranh lớn 30x40cm kèm bộ 6 màu acrylic và cọ tỉa chi tiết" }
+    ],
+    usage: "Dán ghép các phiến lá sen sấy lạnh lên khung để tạo hình tranh phong cảnh quê Bác, hoa sen, Chùa Một Cột theo hướng dẫn hoặc tự do sáng tạo.",
+    benefits: [
+      "Học cụ giáo dục trải nghiệm STEM & nghệ thuật thủ công độc đáo cho học sinh, bạn trẻ và gia đình",
+      "Lá sen thật 100% xử lý sấy lạnh khép kín chống ẩm mốc, giữ trọn sắc độ và đường gân lá sống động",
+      "Rèn luyện sự khéo léo, tính kiên nhẫn, giải tỏa căng thẳng và mang hồn sen quê Bác vào không gian sống"
+    ],
+    image: "assets/images/diy_tranh_la_sen.jpg",
+    gallery: [
+      "assets/images/diy_tranh_la_sen.jpg",
+      "assets/images/diy_tranh_la_sen.jpg"
+    ],
+    shortDesc: "Tự tay sáng tạo tranh nghệ thuật từ lá sen sấy lạnh Kim Liên. Đầy đủ khung tranh gỗ mộc, keo dán, nhíp gắp và sách hướng dẫn.",
+    description: "Bộ học cụ 'Tự Làm Tranh Lá Sen Nghệ Thuật' do HTX Sen Bách Liên phát triển nhằm lan tỏa tình yêu hoa sen quê Bác đến mọi miền. Từng phiến lá sen bách diệp được tuyển chọn và sấy lạnh chân không, bảo toàn nguyên vẹn sắc thái tự nhiên và đường gân dẻo dai. Sản phẩm đi kèm khung tranh gỗ mộc, nhíp gắp, keo dán chuyên dụng và mã QR quét video nghệ nhân hướng dẫn từng bước."
+  },
+  {
+    id: 12,
+    name: "Bộ Tự Làm Nến Thơm Tinh Dầu Sen Quê Bác (DIY Kit)",
+    scientificName: "DIY Lotus Blossom Scented Candle Kit",
+    category: "hoc-cu-diy",
+    categoryName: "Bộ Học Cụ DIY Sen",
+    ocopStars: null,
+    price: 165000,
+    originalPrice: 210000,
+    rating: 5.0,
+    reviewsCount: 92,
+    sold: 410,
+    stock: 30,
+    tag: "Học cụ trải nghiệm • Thư giãn an yên",
+    origin: "HTX Sen Bách Liên, Kim Liên, Nam Đàn, Nghệ An",
+    processMethod: "Sáp đậu nành thiên nhiên & Tinh dầu hoa sen chưng cất nguyên chất",
+    packing: "Hộp Kraft sang trọng kèm hũ gốm cánh sen & dụng cụ",
+    packingOptions: [
+      { name: "Bộ 1 Hũ Gốm Mộc Cánh Sen 200g", priceDelta: 0, desc: "Hũ gốm điêu khắc cánh sen, sáp đậu nành, bấc gỗ, tinh dầu sen 10ml, cánh sen sấy" },
+      { name: "Bộ 2 Hũ Nến Đôi (+80.000đ)", priceDelta: 80000, desc: "Gồm 2 hũ gốm: Hương Sen Sớm Kim Liên & Hương Sen Gỗ Trầm Ấm" }
+    ],
+    usage: "Thực hành nấu nến: đun chảy sáp đậu nành, nhỏ tinh dầu hoa sen nguyên chất, định vị bấc gỗ, rót vào hũ gốm và trang trí cánh hoa sen khô trên bề mặt.",
+    benefits: [
+      "100% nguyên liệu tự nhiên an toàn: sáp đậu nành lành tính không độc hại, bấc gỗ bập bùng tiếng lửa êm dịu",
+      "Hương thơm hoa sen chưng cất tự nhiên giúp xoa dịu tâm trí, thanh lọc không khí và dễ đi vào giấc ngủ",
+      "Trải nghiệm tự làm đồ thủ công mỹ nghệ ý nghĩa, thành phẩm sang trọng dùng trang trí hoặc làm quà tặng"
+    ],
+    image: "assets/images/diy_nen_thom_sen.jpg",
+    gallery: [
+      "assets/images/diy_nen_thom_sen.jpg",
+      "assets/images/diy_nen_thom_sen.jpg"
+    ],
+    shortDesc: "Tự tay nấu và đổ nến thơm tại nhà với sáp đậu nành tự nhiên, tinh dầu hoa sen Bách Liên, bấc gỗ và cánh hoa sen sấy khô.",
+    description: "Bộ Tự Làm Nến Thơm Tinh Dầu Sen Bách Liên mang đến cho bạn liệu pháp thư giãn tâm trí ngay tại nhà. Bộ kít chuẩn bị chu đáo tất cả dụng cụ: sáp đậu nành thiên nhiên, tinh dầu hoa sen nguyên chất được chưng cất từ hoa sen Kim Liên lúc hừng đông, bấc gỗ bập bùng tiếng lửa êm tai, hũ gốm mỹ nghệ điêu khắc cánh sen, cốc rót inox, nhiệt kế và hũ cánh sen sấy khô điểm xuyết trên mặt nến."
   }
 ];
 
@@ -491,6 +565,42 @@ const INITIAL_TOURS = [
     adults: 2,
     children: 2,
     total: 1060000,
+    status: "pending"
+  }
+];
+
+// Danh sách đoàn trường học & cơ quan đăng ký trải nghiệm mẫu
+const INITIAL_GROUP_BOOKINGS = [
+  {
+    id: "DOAN-2026-001",
+    createdAt: "2026-10-25T08:30:00.000Z",
+    orgName: "Trường THCS Đặng Chanh Kỷ (Nam Đàn)",
+    leaderName: "Thầy Nguyễn Văn Toàn",
+    phone: "0912345999",
+    email: "toannguyen.dck@gmail.com",
+    visitDate: "2026-11-15",
+    packageType: "tron-ngay",
+    packageName: "Gói 2: Một Ngày Trọn Vẹn (Kèm Cơm Sen)",
+    studentCount: 45,
+    teacherCount: 4,
+    estimatedTotal: 15750000, // 45 x 350.000đ (giáo viên miễn phí)
+    specialRequests: "Nhờ HTX chuẩn bị 45 áo bà ba cho học sinh và hỗ trợ xuất hóa đơn VAT cho trường.",
+    status: "confirmed"
+  },
+  {
+    id: "DOAN-2026-002",
+    createdAt: "2026-10-24T14:15:00.000Z",
+    orgName: "Đoàn Thanh Niên & Công Đoàn Viettel Nghệ An",
+    leaderName: "Chị Lê Hoàng Yến",
+    phone: "0987654321",
+    email: "yenlh.viettel@gmail.com",
+    visitDate: "2026-11-08",
+    packageType: "stem",
+    packageName: "Gói 3: Chuyên Sâu STEM & Nghệ Nhân Sen",
+    studentCount: 30,
+    teacherCount: 2,
+    estimatedTotal: 7500000, // 30 x 250.000đ
+    specialRequests: "Tập trung 3 workshop làm nến thơm và tranh lá sen đóng khung mang về.",
     status: "pending"
   }
 ];

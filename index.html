@@ -22,9 +22,9 @@
   <meta name="twitter:description" content="HTX Nông Nghiệp & Chế Biến Sen Bách Liên - Kim Liên, Nam Đàn, Nghệ An. Tinh hoa nông sản sen quê Bác." />
   <meta name="twitter:image" content="assets/images/hero_sen_que_bac.jpg" />
 
-  <!-- Favicon biểu tượng đóa sen -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪷</text></svg>" />
-  
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://file.hstatic.net/200000313235/article/14_ecolotus_sen_trong_van_hoa_nguoi_vn_294504ba0d4a44ea96f843b7b67f3041_1024x1024.jpg" />
+
   <!-- JSON-LD Structured Data (Schema.org Store) -->
   <script type="application/ld+json">
   {
@@ -46,79 +46,12 @@
   </script>
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=2" />
 </head>
 <body>
+  <!-- 1 & 2. Header dùng chung (Top Bar & Navbar) -->
+  <site-header active="home"></site-header>
 
-  <!-- 1. Thanh thông báo ưu đãi (Top Bar) -->
-  <header class="top-bar">
-    <div class="container top-bar-inner">
-      <div class="top-bar-tags">
-        <span class="top-bar-tag"> Bách Liên - Hương Sen Quê Bác </span>
-        <!-- <span class="top-bar-tag">❄️ Công nghệ sấy lạnh khép kín Lio-Pharm • Chuẩn VietGAP</span> -->
-      </div>
-      <div class="top-bar-links">
-        <span>Voucher hôm nay: <strong>SENQUEBAC</strong> (Giảm 10%) • Hotline / Zalo: <a href="tel:0988123456">0988.123.456</a></span>
-      </div>
-    </div>
-  </header>
-
-  <!-- 2. Thanh điều hướng chính (Navbar) -->
-  <nav class="navbar" id="main-navbar">
-    <div class="container navbar-inner">
-      <!-- Logo & Tên HTX -->
-      <div class="brand" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-        <img src="https://file.hstatic.net/200000313235/article/14_ecolotus_sen_trong_van_hoa_nguoi_vn_294504ba0d4a44ea96f843b7b67f3041_1024x1024.jpg" alt="Logo HTX Sen Bách Liên" class="brand-logo-img" style="width: 44px; height: 44px; border-radius: 12px; object-fit: cover; box-shadow: var(--shadow-sm); display: block;" />
-        <div class="brand-text">
-          <h1>Bách Liên</h1>
-          <span>Hương Sen Quê Bác</span>
-        </div>
-      </div>
-
-      <!-- Ô tìm kiếm tức thì -->
-      <div class="search-box">
-        <div class="search-input-wrap">
-          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" id="search-input" class="search-input" placeholder="Tìm trà tâm sen, hạt sen sấy, trà bông, bánh cà..." autocomplete="off" aria-label="Tìm kiếm sản phẩm sen OCOP" />
-        </div>
-      </div>
-
-      <!-- Cụm nút chức năng -->
-      <div class="nav-actions">
-        <!-- Đổi theme Sáng / Tối -->
-        <button id="theme-toggle-btn" class="icon-btn" onclick="App.toggleTheme()" title="Chuyển chế độ Sáng / Tối" aria-label="Chuyển chế độ Sáng hoặc Tối">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        </button>
-
-        <!-- Tra cứu đơn hàng -->
-        <button class="icon-btn" onclick="App.openOrderTrackingModal()" title="Tra cứu đơn hàng của bạn" aria-label="Tra cứu đơn hàng đã đặt">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-          </svg>
-        </button>
-
-        <!-- Giỏ hàng -->
-        <button id="header-cart-btn" class="icon-btn" title="Xem giỏ hàng" aria-label="Xem giỏ hàng của bạn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-          </svg>
-          <span class="cart-badge-count" aria-live="polite">0</span>
-        </button>
-
-        <!-- Link tới Bảng Admin Demo -->
-        <a href="admin.html" class="btn-admin-link" title="Mở trang quản trị đơn hàng, tour & sản phẩm">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          
-        </a>
-      </div>
-    </div>
-  </nav>
 
   <!-- 3. Hero Section (Banner Sen Quê Bác ấn tượng) -->
   <section class="hero-section">
@@ -135,8 +68,11 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
               Khám phá sản phẩm OCOP
             </a>
+            <a href="trai-nghiem.html" class="btn btn-secondary">
+               Chủ Đề Trải Nghiệm
+            </a>
             <button class="btn btn-secondary" onclick="App.openTourModal()">
-               Đặt Tour "Làm Nông Dân"
+               Đặt Tour
             </button>
           </div>
         </div>
@@ -194,7 +130,20 @@
           </div>
         </div>
 
-        <div class="facility-content">
+        <div class="facility-img-wrap">
+          <img 
+            src="assets/images/giay_chung_nhan.jpg" 
+            alt="Giấy chứng nhận OCOP HTX Sen Quê Bác - UBND Tỉnh Nghệ An" 
+            class="facility-img" 
+            style="object-fit: contain; background: #ffffff;"
+            loading="lazy" 
+          />
+          <div class="facility-tag-overlay">
+             Chứng nhận OCOP - UBND Tỉnh Nghệ An cấp
+          </div>
+        </div>
+
+        <!-- <div class="facility-content">
           <div class="facility-badge-label">
             <span> ĐỘT PHÁ CÔNG NGHỆ CHẾ BIẾN</span>
           </div>
@@ -205,27 +154,23 @@
 
           <div class="facility-specs-grid">
             <div class="facility-spec-card">
-              <!-- <div class="facility-spec-icon">🌡️</div> -->
               <h3 class="facility-spec-title">Nhiệt Độ Thấp (15°C - 25°C)</h3>
               <p class="facility-spec-desc">Không làm đứt gãy cấu trúc tế bào, giữ trọn vẹn tinh dầu và màu sắc hoa sen.</p>
             </div>
             <div class="facility-spec-card">
-              <!-- <div class="facility-spec-icon">🌿</div> -->
               <h3 class="facility-spec-title">Bảo Toàn 99% Dược Tính</h3>
               <p class="facility-spec-desc">Tâm sen xanh ngọc, râu sen giàu phấn hoa, hạt sen nở xốp giòn tan không dầu.</p>
             </div>
             <div class="facility-spec-card">
-              <!-- <div class="facility-spec-icon">🛡️</div> -->
               <h3 class="facility-spec-title">Vô Trùng Khép Kín</h3>
               <p class="facility-spec-desc">Quy trình đạt chuẩn VietGAP & ISO 22000, 100% không chất bảo quản.</p>
             </div>
             <div class="facility-spec-card">
-              <!-- <div class="facility-spec-icon">🏅</div> -->
               <h3 class="facility-spec-title">Nâng Tầm Sen Quê Bác</h3>
               <p class="facility-spec-desc">Đưa nông sản địa phương trở thành đặc sản OCOP chất lượng cao vươn tầm toàn quốc.</p>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -244,7 +189,7 @@
         </div>
 
         <div class="tour-content-col">
-          <div>
+          <!-- <div>
             <span class="tour-sub-tag"> DU LỊCH NÔNG NGHIỆP SINH THÁI</span>
             <h2 class="tour-title">Tour "Một Ngày Làm Nông Dân"</h2>
             <p class="tour-desc">
@@ -277,7 +222,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="tour-pricing-row">
             <div class="tour-price-box">
@@ -302,8 +247,8 @@
       <div class="catalog-header">
         <div class="catalog-header-top">
           <div class="section-title">
-            <h2>Sản Phẩm OCOP & Nông Sản Sen</h2>
-            <p>4 sản phẩm OCOP 4 sao và 5 sản phẩm OCOP 3 sao chế biến bằng công nghệ sấy lạnh khép kín</p>
+            <h2>Sản Phẩm OCOP & Bộ Học Cụ Sen</h2>
+            <p>4 sản phẩm OCOP 4 sao, 5 sản phẩm OCOP 3 sao & Bộ học cụ tự thực hành DIY tại nhà</p>
           </div>
           
           <!-- Sắp xếp -->
@@ -321,12 +266,13 @@
 
         <!-- Thanh chọn danh mục nhanh -->
         <div class="category-pills-row">
-          <button class="category-pill active" data-cat="all">🪷 Tất cả sản phẩm</button>
-          <button class="category-pill" data-cat="ocop-4">⭐⭐⭐⭐ OCOP 4 Sao (4)</button>
-          <button class="category-pill" data-cat="ocop-3">⭐⭐⭐ OCOP 3 Sao (5)</button>
-          <button class="category-pill" data-cat="tra-sen">🍵 Trà Sen Thượng Hạng</button>
-          <button class="category-pill" data-cat="nong-san-sen">🥜 Hạt Sen & Bánh Sen</button>
-          <button class="category-pill" data-cat="qua-tang">🎁 Hộp Quà Biếu OCOP</button>
+          <button class="category-pill active" data-cat="all"> Tất cả sản phẩm</button>
+          <button class="category-pill" data-cat="ocop-4"> OCOP 4 Sao (4)</button>
+          <button class="category-pill" data-cat="ocop-3"> OCOP 3 Sao (5)</button>
+          <button class="category-pill" data-cat="tra-sen"> Trà Sen Thượng Hạng</button>
+          <button class="category-pill" data-cat="nong-san-sen"> Hạt Sen & Bánh Sen</button>
+          <button class="category-pill" data-cat="qua-tang"> Hộp Quà Biếu OCOP</button>
+          <button class="category-pill" data-cat="hoc-cu-diy"> Bộ Tự Thực Hành DIY (2)</button>
         </div>
 
         <!-- Bộ lọc phụ (Khoảng giá & Phân hạng sao) -->
@@ -733,60 +679,8 @@
     </div>
   </div>
 
-  <!-- 11. Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="brand">
-            <img src="https://file.hstatic.net/200000313235/article/14_ecolotus_sen_trong_van_hoa_nguoi_vn_294504ba0d4a44ea96f843b7b67f3041_1024x1024.jpg" alt="Logo HTX Sen Bách Liên" class="brand-logo-img" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; display: block;" />
-            <div class="brand-text">
-              <h2 style="font-size: 1.25rem;">Bách Liên</h2>
-              <span>Hương Sen Quê Bác</span>
-            </div>
-          </div>
-          <p>Hợp tác xã Nông nghiệp & Chế biến Sen Bách Liên. Tinh hoa nông sản OCOP 3 sao & 4 sao, ứng dụng công nghệ sấy lạnh khép kín giữ trọn hương vị và dược tính tự nhiên.</p>
-          <p style="font-size: 0.8rem; color: var(--text-muted);">
-            📍 Xã Kim Liên, Huyện Nam Đàn, Tỉnh Nghệ An (Đầm Sen Quê Bác)<br />
-            📞 Hotline / Zalo: 0988.123.456 • Email: senbachlien.namdan@gmail.com
-          </p>
-        </div>
-
-        <div class="footer-col">
-          <h4>Sản Phẩm OCOP Tiêu Biểu</h4>
-          <ul>
-            <li><a href="javascript:void(0)" onclick="App.activeCategory='ocop-4'; App.renderProducts(); document.getElementById('catalog-section').scrollIntoView();">Sản Phẩm OCOP 4 Sao (4)</a></li>
-            <li><a href="javascript:void(0)" onclick="App.activeCategory='ocop-3'; App.renderProducts(); document.getElementById('catalog-section').scrollIntoView();">Sản Phẩm OCOP 3 Sao (5)</a></li>
-            <li><a href="javascript:void(0)" onclick="App.activeCategory='tra-sen'; App.renderProducts(); document.getElementById('catalog-section').scrollIntoView();">Trà Sen Thượng Hạng</a></li>
-            <li><a href="javascript:void(0)" onclick="App.activeCategory='qua-tang'; App.renderProducts(); document.getElementById('catalog-section').scrollIntoView();">Hộp Quà Biếu Hội Nghị</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Dịch Vụ & Trải Nghiệm</h4>
-          <ul>
-            <li><a href="javascript:void(0)" onclick="App.openTourModal()">Tour "Một ngày làm nông dân"</a></li>
-            <li><a href="#facility-section">Công nghệ sấy lạnh khép kín</a></li>
-            <li><a href="javascript:void(0)" onclick="App.openOrderTrackingModal()">Tra cứu đơn hàng nông sản</a></li>
-            <li><a href="javascript:void(0)" onclick="StorageService.resetToDefaults()">Khôi phục dữ liệu gốc demo</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Bảng Quản Trị HTX</h4>
-          <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;">Truy cập trang Admin để quản lý danh sách đơn hàng nông sản và lịch khách đặt tour.</p>
-          <a href="admin.html" class="btn btn-primary" style="font-size: 0.84rem; padding: 8px 16px;">
-            Mở Bảng Admin Demo ➔
-          </a>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <span>© 2026 HTX Sen Bách Liên - Kim Liên, Nam Đàn, Nghệ An. Website 100% Client-side tối ưu cho GitHub Pages.</span>
-        <span>Hương sen quê Bác • Tinh hoa nông sản Việt 🪷</span>
-      </div>
-    </div>
-  </footer>
+  <!-- 11. Footer dùng chung -->
+  <site-footer></site-footer>
 
   <!-- Nút bấm quay lên đầu trang -->
   <button id="back-to-top-btn" class="back-to-top" title="Lên đầu trang" aria-label="Cuộn lên đầu trang">
@@ -801,6 +695,7 @@
   <script src="js/storage.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/checkout.js"></script>
+  <script src="js/components.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

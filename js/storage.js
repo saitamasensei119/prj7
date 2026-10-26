@@ -6,6 +6,7 @@ const STORAGE_KEYS = {
   CART: "bachlien_cart_v1",
   ORDERS: "bachlien_orders_v1",
   TOURS: "bachlien_tours_v1",
+  GROUP_BOOKINGS: "bachlien_group_bookings_v1",
   COUPONS: "bachlien_coupons_v1",
   SHOP_CONFIG: "bachlien_config_v1",
   THEME: "bachlien_theme_v1"
@@ -36,6 +37,8 @@ const StorageService = {
             stored[idx].originalPrice !== seedProd.originalPrice ||
             stored[idx].shortDesc !== seedProd.shortDesc ||
             stored[idx].ocopStars !== seedProd.ocopStars ||
+            stored[idx].category !== seedProd.category ||
+            JSON.stringify(stored[idx].packingOptions) !== JSON.stringify(seedProd.packingOptions) ||
             JSON.stringify(stored[idx].gallery) !== JSON.stringify(seedProd.gallery)
           ) {
             stored[idx] = { ...stored[idx], ...seedProd };
@@ -183,6 +186,43 @@ const StorageService = {
     if (target) {
       target.status = newStatus;
       this.saveTours(tours);
+      return true;
+    }
+    return false;
+  },
+
+  // Đăng ký trải nghiệm khách đoàn / trường học
+  getGroupBookings() {
+    this.init();
+    try {
+      const stored = localStorage.getItem(STORAGE_KEYS.GROUP_BOOKINGS);
+      if (stored) return JSON.parse(stored);
+      if (typeof INITIAL_GROUP_BOOKINGS !== "undefined") {
+        return INITIAL_GROUP_BOOKINGS;
+      }
+      return [];
+    } catch (e) {
+      return typeof INITIAL_GROUP_BOOKINGS !== "undefined" ? INITIAL_GROUP_BOOKINGS : [];
+    }
+  },
+
+  saveGroupBookings(bookings) {
+    localStorage.setItem(STORAGE_KEYS.GROUP_BOOKINGS, JSON.stringify(bookings));
+  },
+
+  addGroupBooking(booking) {
+    const list = this.getGroupBookings();
+    list.unshift(booking);
+    this.saveGroupBookings(list);
+    return booking;
+  },
+
+  updateGroupBookingStatus(bookingId, newStatus) {
+    const list = this.getGroupBookings();
+    const target = list.find(b => b.id === bookingId);
+    if (target) {
+      target.status = newStatus;
+      this.saveGroupBookings(list);
       return true;
     }
     return false;
