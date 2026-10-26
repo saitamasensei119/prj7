@@ -1,14 +1,21 @@
-// Module giao diện chính & điều hướng Sen Đá House (app.js)
+// Module giao diện chính & điều hướng HTX Sen Bách Liên (app.js)
+// Thương hiệu: Bách Liên - "Hương sen quê Bác"
 
 const App = {
   activeCategory: "all",
   activePriceRange: "all",
-  activeDifficulty: "all",
+  activeOcopFilter: "all",
   searchKeyword: "",
   sortBy: "default",
   currentModalProduct: null,
-  selectedPotOption: { name: "Chậu nhựa ươm", priceDelta: 0 },
+  selectedPotOption: { name: "Quy cách tiêu chuẩn", priceDelta: 0 },
   modalQuantity: 1,
+
+  // Trạng thái Tour nông nghiệp
+  tourAdults: 2,
+  tourChildren: 0,
+  tourPriceAdult: 350000,
+  tourPriceChild: 180000,
 
   init() {
     this.initTheme();
@@ -16,6 +23,7 @@ const App = {
     CartService.renderCartUI();
     this.bindEvents();
     this.setupBackToTop();
+    this.setupTourDefaults();
   },
 
   // Khởi tạo chế độ Sáng / Tối
@@ -42,23 +50,29 @@ const App = {
   getFilteredProducts() {
     let products = StorageService.getProducts();
 
-    // Lọc theo danh mục
-    if (this.activeCategory !== "all") {
+    // Lọc theo danh mục hoặc hạng sao OCOP
+    if (this.activeCategory === "ocop-4") {
+      products = products.filter(p => p.ocopStars === 4);
+    } else if (this.activeCategory === "ocop-3") {
+      products = products.filter(p => p.ocopStars === 3);
+    } else if (this.activeCategory !== "all") {
       products = products.filter(p => p.category === this.activeCategory);
     }
 
-    // Lọc theo giá
-    if (this.activePriceRange === "under-50k") {
-      products = products.filter(p => p.price < 50000);
-    } else if (this.activePriceRange === "50k-100k") {
-      products = products.filter(p => p.price >= 50000 && p.price <= 100000);
-    } else if (this.activePriceRange === "over-100k") {
-      products = products.filter(p => p.price > 100000);
+    // Lọc theo khoảng giá
+    if (this.activePriceRange === "under-100k") {
+      products = products.filter(p => p.price < 100000);
+    } else if (this.activePriceRange === "100k-200k") {
+      products = products.filter(p => p.price >= 100000 && p.price <= 200000);
+    } else if (this.activePriceRange === "over-200k") {
+      products = products.filter(p => p.price > 200000);
     }
 
-    // Lọc theo độ khó chăm sóc
-    if (this.activeDifficulty !== "all") {
-      products = products.filter(p => p.difficulty.toLowerCase().includes(this.activeDifficulty.toLowerCase()));
+    // Lọc phụ theo phân hạng sao OCOP
+    if (this.activeOcopFilter === "4") {
+      products = products.filter(p => p.ocopStars === 4);
+    } else if (this.activeOcopFilter === "3") {
+      products = products.filter(p => p.ocopStars === 3);
     }
 
     // Lọc từ khóa tìm kiếm
@@ -68,7 +82,8 @@ const App = {
         p.name.toLowerCase().includes(kw) || 
         (p.scientificName && p.scientificName.toLowerCase().includes(kw)) ||
         (p.categoryName && p.categoryName.toLowerCase().includes(kw)) ||
-        (p.shortDesc && p.shortDesc.toLowerCase().includes(kw))
+        (p.shortDesc && p.shortDesc.toLowerCase().includes(kw)) ||
+        (p.description && p.description.toLowerCase().includes(kw))
       );
     }
 
@@ -95,15 +110,15 @@ const App = {
     const filtered = this.getFilteredProducts();
 
     if (countEl) {
-      countEl.textContent = `Hiển thị ${filtered.length} cây cảnh phù hợp`;
+      countEl.textContent = `Hiển thị ${filtered.length} sản phẩm OCOP & nông sản sen Bách Liên`;
     }
 
     if (filtered.length === 0) {
       grid.innerHTML = `
         <div class="empty-products-view">
-          <div class="empty-icon">🌵</div>
-          <h3>Không tìm thấy loại cây nào phù hợp!</h3>
-          <p>Thử đổi bộ lọc hoặc tìm từ khóa khác như "sen đá nâu", "ngọc bích", "combo"...</p>
+          <div class="empty-icon">🪷</div>
+          <h3>Không tìm thấy sản phẩm sen nào phù hợp!</h3>
+          <p>Thử đổi bộ lọc hoặc tìm từ khóa khác như "tâm sen", "hạt sen", "trà bông", "bánh cà"...</p>
           <button class="btn btn-outline" onclick="App.resetFilters()">Đặt lại bộ lọc</button>
         </div>
       `;
@@ -115,29 +130,34 @@ const App = {
         ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
         : null;
 
+      const ocopBadge = product.ocopStars 
+        ? `<span class="badge badge-ocop ocop-star-${product.ocopStars}">⭐ OCOP ${product.ocopStars} Sao</span>`
+        : "";
+
       return `
         <article class="product-card" data-id="${product.id}">
           <div class="product-badge-group">
+            ${ocopBadge}
             ${product.tag ? `<span class="badge badge-tag">${product.tag}</span>` : ""}
             ${discountPercent ? `<span class="badge badge-discount">-${discountPercent}%</span>` : ""}
           </div>
           
           <div class="product-thumb-wrapper" onclick="App.openQuickView(${product.id})">
-            <img src="${product.image}" alt="Cây ${product.name} - ${product.categoryName || 'Sen Đá'}" class="product-thumb" loading="lazy" />
-            <button class="quick-view-overlay-btn" title="Xem nhanh chi tiết" aria-label="Xem nhanh chi tiết ${product.name}">
+            <img src="${product.image}" alt="${product.name} - ${product.categoryName || 'Sen Bách Liên'}" class="product-thumb" loading="lazy" />
+            <button class="quick-view-overlay-btn" title="Xem nhanh chi tiết" aria-label="Xem chi tiết ${product.name}">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              Xem nhanh
+              Xem chi tiết
             </button>
           </div>
 
           <div class="product-body">
-            <span class="product-category-label">${product.categoryName || "Sen Đá"}</span>
+            <span class="product-category-label">${product.categoryName || "Nông Sản Sen"}</span>
             <h3 class="product-title" onclick="App.openQuickView(${product.id})" title="${product.name}">${product.name}</h3>
-            <p class="product-scientific">${product.scientificName || ""}</p>
+            <p class="product-scientific">${product.scientificName || "Hương sen quê Bác"}</p>
             
             <div class="product-meta-pills">
-              <span class="meta-pill" title="Mức độ chăm sóc">🌿 ${product.difficulty}</span>
-              <span class="meta-pill" title="Kích cỡ">📏 ${product.size}</span>
+              <span class="meta-pill" title="Công nghệ sơ chế">❄️ Sấy lạnh</span>
+              <span class="meta-pill" title="Quy cách đóng gói">📦 ${product.packing ? product.packing.split(' ')[0] + ' ' + (product.packing.split(' ')[1] || '') : "Hộp chuẩn"}</span>
             </div>
 
             <div class="product-price-row">
@@ -169,7 +189,10 @@ const App = {
     if (!product) return;
 
     this.currentModalProduct = product;
-    this.selectedPotOption = { name: "Chậu nhựa ươm", priceDelta: 0 };
+    this.selectedPotOption = { 
+      name: (product.packingOptions && product.packingOptions[0]) ? product.packingOptions[0].name : (product.packing || "Quy cách tiêu chuẩn"), 
+      priceDelta: 0 
+    };
     this.modalQuantity = 1;
 
     const modal = document.getElementById("quickview-modal");
@@ -184,25 +207,36 @@ const App = {
     document.getElementById("qv-reviews").textContent = `(${product.reviewsCount || 45} đánh giá)`;
     document.getElementById("qv-sold").textContent = `${product.sold || 100} đã bán`;
     document.getElementById("qv-short-desc").textContent = product.shortDesc || product.description;
-    document.getElementById("qv-difficulty").textContent = product.difficulty;
-    document.getElementById("qv-light").textContent = product.light;
-    document.getElementById("qv-water").textContent = product.water;
-    document.getElementById("qv-size").textContent = product.size;
+    
+    // Cập nhật thông số nông sản OCOP
+    const diffEl = document.getElementById("qv-difficulty");
+    if (diffEl) diffEl.textContent = product.ocopStars ? `OCOP ${product.ocopStars} Sao` : "Đạt Chuẩn VietGAP";
+    
+    const lightEl = document.getElementById("qv-light");
+    if (lightEl) lightEl.textContent = product.origin || "Xã Kim Liên, Nam Đàn, Nghệ An";
+    
+    const waterEl = document.getElementById("qv-water");
+    if (waterEl) waterEl.textContent = product.processMethod || "Sấy lạnh khép kín Lio-Pharm";
+    
+    const sizeEl = document.getElementById("qv-size");
+    if (sizeEl) sizeEl.textContent = product.packing || "Hộp cao cấp";
+
     document.getElementById("qv-qty-input").textContent = "1";
 
     // Danh sách thumbnail ảnh
     const thumbsContainer = document.getElementById("qv-thumbnails");
     const gallery = product.gallery && product.gallery.length ? product.gallery : [product.image];
     thumbsContainer.innerHTML = gallery.map((img, i) => `
-      <img src="${img}" class="qv-thumb-item ${i === 0 ? 'active' : ''}" onclick="App.changeQuickViewImage('${img}', this)" />
+      <img src="${img}" class="qv-thumb-item ${i === 0 ? 'active' : ''}" onclick="App.changeQuickViewImage('${img}', this)" alt="${product.name}" />
     `).join("");
 
-    // Render lựa chọn chậu
-    const potOptions = [
-      { name: "Chậu nhựa ươm", priceDelta: 0, desc: "Nhẹ, tiện thay chậu sau" },
-      { name: "Chậu đất nung mộc (+15.000đ)", priceDelta: 15000, desc: "Thoát ẩm mát rễ tối ưu" },
-      { name: "Chậu gốm men hỏa biến (+35.000đ)", priceDelta: 35000, desc: "Sang trọng, decor bàn làm việc" }
-    ];
+    // Render lựa chọn quy cách đóng gói
+    const potOptions = product.packingOptions && product.packingOptions.length 
+      ? product.packingOptions
+      : [
+          { name: product.packing || "Quy cách chuẩn", priceDelta: 0, desc: "Bao bì niêm phong tiệt trùng tiêu chuẩn" },
+          { name: "Hộp quà biếu cao cấp (+45.000đ)", priceDelta: 45000, desc: "Kèm túi quai xách sang trọng làm quà" }
+        ];
 
     const potContainer = document.getElementById("qv-pot-options");
     potContainer.innerHTML = potOptions.map((opt, idx) => `
@@ -230,7 +264,7 @@ const App = {
     document.querySelectorAll(".pot-radio-card").forEach(el => el.classList.remove("selected"));
     if (labelEl) labelEl.classList.add("selected");
 
-    // Cập nhật lại giá hiển thị theo chậu
+    // Cập nhật lại giá hiển thị theo quy cách
     if (this.currentModalProduct) {
       const newPrice = this.currentModalProduct.price + priceDelta;
       document.getElementById("qv-price").textContent = formatCurrency(newPrice);
@@ -254,11 +288,107 @@ const App = {
     document.body.style.overflow = "";
   },
 
+  // ==========================================
+  // PHÂN HỆ ĐẶT TOUR NÔNG NGHIỆP TRẢI NGHIỆM
+  // ==========================================
+  setupTourDefaults() {
+    const today = new Date();
+    today.setDate(today.getDate() + 2); // Mặc định chọn ngày sau 2 hôm
+    const dateInput = document.getElementById("tour-date-input");
+    if (dateInput) {
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      dateInput.value = `${yyyy}-${mm}-${dd}`;
+      dateInput.min = `${yyyy}-${mm}-${dd}`;
+    }
+    this.calculateTourTotal();
+  },
+
+  openTourModal() {
+    const modal = document.getElementById("tour-booking-modal");
+    if (modal) {
+      modal.classList.add("modal-open");
+      document.body.style.overflow = "hidden";
+      this.calculateTourTotal();
+    }
+  },
+
+  closeTourModal() {
+    const modal = document.getElementById("tour-booking-modal");
+    if (modal) modal.classList.remove("modal-open");
+    document.body.style.overflow = "";
+  },
+
+  changeTourAdults(delta) {
+    this.tourAdults = Math.max(1, this.tourAdults + delta);
+    const el = document.getElementById("tour-adults-val");
+    if (el) el.textContent = this.tourAdults;
+    this.calculateTourTotal();
+  },
+
+  changeTourChildren(delta) {
+    this.tourChildren = Math.max(0, this.tourChildren + delta);
+    const el = document.getElementById("tour-children-val");
+    if (el) el.textContent = this.tourChildren;
+    this.calculateTourTotal();
+  },
+
+  calculateTourTotal() {
+    const total = (this.tourAdults * this.tourPriceAdult) + (this.tourChildren * this.tourPriceChild);
+    const totalEl = document.getElementById("tour-calc-total");
+    if (totalEl) totalEl.textContent = formatCurrency(total);
+    return total;
+  },
+
+  handleTourBookingSubmit(e) {
+    e.preventDefault();
+    const name = document.getElementById("tour-name-input")?.value.trim();
+    const phone = document.getElementById("tour-phone-input")?.value.trim();
+    const date = document.getElementById("tour-date-input")?.value;
+    const note = document.getElementById("tour-note-input")?.value.trim() || "";
+
+    if (!name || !phone || !date) {
+      CartService.showToast("Vui lòng điền đầy đủ họ tên, số điện thoại và ngày tham quan!", "error");
+      return;
+    }
+
+    const total = this.calculateTourTotal();
+    const bookingId = "TOUR-" + Date.now().toString().slice(-6);
+
+    const booking = {
+      id: bookingId,
+      createdAt: new Date().toISOString(),
+      tourDate: date,
+      customer: { name, phone, note },
+      adults: this.tourAdults,
+      children: this.tourChildren,
+      total: total,
+      status: "pending"
+    };
+
+    StorageService.addTourBooking(booking);
+    this.closeTourModal();
+
+    // Hiển thị thông báo thành công
+    CartService.showToast(`Đăng ký tour thành công! Mã vé: ${bookingId}`, "success");
+
+    // Mở liên kết Zalo hoặc tư vấn
+    const config = StorageService.getConfig();
+    const zaloMsg = `Chào HTX Sen Bách Liên, tôi vừa đăng ký Tour "Một ngày làm nông dân":%0A- Mã vé: ${bookingId}%0A- Người đặt: ${name} (${phone})%0A- Ngày đi: ${date}%0A- Số khách: ${this.tourAdults} Người lớn, ${this.tourChildren} Trẻ em%0A- Tổng tiền: ${formatCurrency(total)}%0A- Ghi chú: ${note || 'Không'}`;
+    
+    setTimeout(() => {
+      if (confirm(`Đăng ký tour thành công! Bạn có muốn mở Zalo (${config.hotline}) để gửi xác nhận lịch trình ngay không?`)) {
+        window.open(`https://zalo.me/${config.zaloPhone}?text=${zaloMsg}`, "_blank");
+      }
+    }, 400);
+  },
+
   // Reset toàn bộ bộ lọc
   resetFilters() {
     this.activeCategory = "all";
     this.activePriceRange = "all";
-    this.activeDifficulty = "all";
+    this.activeOcopFilter = "all";
     this.searchKeyword = "";
     this.sortBy = "default";
 
@@ -279,13 +409,15 @@ const App = {
     this.renderProducts();
   },
 
-  // Tra cứu đơn hàng đã đặt bằng SĐT hoặc Mã đơn
+  // Modal tra cứu đơn hàng
   openOrderTrackingModal() {
     const modal = document.getElementById("tracking-modal");
-    if (!modal) return;
-    modal.classList.add("modal-open");
-    document.body.style.overflow = "hidden";
-    this.searchOrders("");
+    if (modal) {
+      modal.classList.add("modal-open");
+      document.body.style.overflow = "hidden";
+      const input = document.getElementById("tracking-phone-input");
+      if (input) input.focus();
+    }
   },
 
   closeOrderTrackingModal() {
@@ -294,83 +426,66 @@ const App = {
     document.body.style.overflow = "";
   },
 
-  searchOrders(keyword) {
-    const listContainer = document.getElementById("tracking-results-list");
-    if (!listContainer) return;
+  handleOrderTrackingSubmit(e) {
+    e.preventDefault();
+    const phoneInput = document.getElementById("tracking-phone-input");
+    const resultBox = document.getElementById("tracking-results-box");
+    if (!phoneInput || !resultBox) return;
 
-    const orders = StorageService.getOrders();
-    const kw = keyword.toLowerCase().trim();
+    const phone = phoneInput.value.trim();
+    if (!phone) return;
 
-    const filtered = kw ? orders.filter(o => 
-      o.id.toLowerCase().includes(kw) || 
-      o.customer.phone.includes(kw) ||
-      o.customer.name.toLowerCase().includes(kw)
-    ) : orders;
+    const allOrders = StorageService.getOrders();
+    const matched = allOrders.filter(o => o.customer && o.customer.phone === phone);
 
-    if (filtered.length === 0) {
-      listContainer.innerHTML = `
-        <div class="empty-state-card">
-          <p>Không tìm thấy đơn hàng nào khớp với "<strong>${keyword}</strong>".</p>
-          <small>Vui lòng kiểm tra lại số điện thoại hoặc mã đơn (VD: SDH-98214).</small>
+    if (matched.length === 0) {
+      resultBox.innerHTML = `
+        <div style="text-align: center; padding: 24px; color: var(--text-muted);">
+          <p>Không tìm thấy đơn hàng nào với số điện thoại <strong>${phone}</strong>.</p>
         </div>
       `;
       return;
     }
 
-    const statusMap = {
-      processing: { text: "Chờ xác nhận & đóng gói", colorClass: "status-orange" },
-      shipping: { text: "Đang vận chuyển", colorClass: "status-blue" },
-      completed: { text: "Đã giao thành công", colorClass: "status-green" },
-      cancelled: { text: "Đã hủy đơn", colorClass: "status-red" }
-    };
-
-    listContainer.innerHTML = filtered.map(order => {
-      const st = statusMap[order.status] || { text: order.status, colorClass: "status-gray" };
-      return `
-        <div class="order-tracking-card">
-          <div class="order-track-header">
-            <div>
-              <span class="order-track-id">${order.id}</span>
-              <span class="order-track-date">• Ngày đặt: ${formatDateTime(order.createdAt)}</span>
+    resultBox.innerHTML = `
+      <h4 style="margin-bottom: 12px; font-size: 0.95rem;">Tìm thấy ${matched.length} đơn hàng của bạn:</h4>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        ${matched.map(o => `
+          <div style="border: 1px solid var(--surface-border); border-radius: var(--radius-sm); padding: 14px; background: var(--bg-subtle);">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+              <strong>${o.id}</strong>
+              <span class="badge" style="background: var(--primary-light); color: var(--primary);">
+                ${o.status === 'completed' ? 'Đã giao' : o.status === 'shipping' ? 'Đang giao' : 'Đang xử lý'}
+              </span>
             </div>
-            <span class="order-status-badge ${st.colorClass}">${st.text}</span>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;">
+              Ngày đặt: ${formatDateTime(o.createdAt)}
+            </p>
+            <p style="font-size: 0.9rem; font-weight: 700; color: var(--primary);">
+              Tổng: ${formatCurrency(o.total)} (${o.items.length} món)
+            </p>
           </div>
-
-          <div class="order-track-customer">
-            <p><strong>Người nhận:</strong> ${order.customer.name} - ${order.customer.phone}</p>
-            <p><strong>Địa chỉ:</strong> ${order.customer.address}</p>
-          </div>
-
-          <div class="order-track-items">
-            ${order.items.map(i => `
-              <div class="track-item-row">
-                <span>${i.name} (${i.pot}) × ${i.quantity}</span>
-                <span>${formatCurrency(i.unitTotal * i.quantity)}</span>
-              </div>
-            `).join("")}
-          </div>
-
-          <div class="order-track-footer">
-            <span>Tổng thanh toán:</span>
-            <strong class="total-highlight">${formatCurrency(order.total)}</strong>
-          </div>
-        </div>
-      `;
-    }).join("");
+        `).join("")}
+      </div>
+    `;
   },
 
-  // Gán sự kiện tương tác
+  // Gắn các sự kiện tương tác
   bindEvents() {
-    // Tìm kiếm
+    // Tìm kiếm tức thì với debounce
     const searchInput = document.getElementById("search-input");
     if (searchInput) {
+      let debounceTimer = null;
       searchInput.addEventListener("input", (e) => {
-        this.searchKeyword = e.target.value;
-        this.renderProducts();
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          this.searchKeyword = e.target.value;
+          this.renderProducts();
+        }, 120);
       });
     }
 
-    // Chọn danh mục
+    // Chọn danh mục chính (Category Pills)
     document.querySelectorAll(".category-pill").forEach(pill => {
       pill.addEventListener("click", () => {
         document.querySelectorAll(".category-pill").forEach(p => p.classList.remove("active"));
@@ -390,12 +505,12 @@ const App = {
       });
     });
 
-    // Chọn bộ lọc chăm sóc
+    // Chọn bộ lọc hạng sao OCOP
     document.querySelectorAll(".diff-filter-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".diff-filter-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        this.activeDifficulty = btn.dataset.val;
+        this.activeOcopFilter = btn.dataset.val;
         this.renderProducts();
       });
     });
@@ -456,6 +571,7 @@ const App = {
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         this.closeQuickView();
+        this.closeTourModal();
         this.closeOrderTrackingModal();
         if (typeof CheckoutService !== "undefined") {
           CheckoutService.closeCheckoutModal();

@@ -1,13 +1,14 @@
-// Quản lý lưu trữ LocalStorage cho Sen Đá House
-// Thay thế hoàn toàn CSDL truyền thống, hoạt động offline / tĩnh trên GitHub Pages
+// Quản lý lưu trữ LocalStorage cho HTX Sen Bách Liên
+// Hoạt động 100% offline & client-side trên GitHub Pages, không cần server/CSDL
 
 const STORAGE_KEYS = {
-  PRODUCTS: "senda_products_v1",
-  CART: "senda_cart_v1",
-  ORDERS: "senda_orders_v1",
-  COUPONS: "senda_coupons_v1",
-  SHOP_CONFIG: "senda_config_v1",
-  THEME: "senda_theme_v1"
+  PRODUCTS: "bachlien_products_v1",
+  CART: "bachlien_cart_v1",
+  ORDERS: "bachlien_orders_v1",
+  TOURS: "bachlien_tours_v1",
+  COUPONS: "bachlien_coupons_v1",
+  SHOP_CONFIG: "bachlien_config_v1",
+  THEME: "bachlien_theme_v1"
 };
 
 const StorageService = {
@@ -23,7 +24,7 @@ const StorageService = {
     if (!stored || !Array.isArray(stored) || stored.length === 0) {
       localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(INITIAL_PRODUCTS));
     } else {
-      // Tự động phát hiện khi bạn sửa ảnh, giá, mô tả trong data.js để cập nhật ngay vào LocalStorage
+      // Tự động phát hiện khi cập nhật data.js để đồng bộ vào LocalStorage
       let hasChanges = false;
       INITIAL_PRODUCTS.forEach(seedProd => {
         const idx = stored.findIndex(p => p.id === seedProd.id);
@@ -34,6 +35,7 @@ const StorageService = {
             stored[idx].price !== seedProd.price ||
             stored[idx].originalPrice !== seedProd.originalPrice ||
             stored[idx].shortDesc !== seedProd.shortDesc ||
+            stored[idx].ocopStars !== seedProd.ocopStars ||
             JSON.stringify(stored[idx].gallery) !== JSON.stringify(seedProd.gallery)
           ) {
             stored[idx] = { ...stored[idx], ...seedProd };
@@ -55,6 +57,9 @@ const StorageService = {
     }
     if (!localStorage.getItem(STORAGE_KEYS.ORDERS)) {
       localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(INITIAL_ORDERS));
+    }
+    if (!localStorage.getItem(STORAGE_KEYS.TOURS)) {
+      localStorage.setItem(STORAGE_KEYS.TOURS, JSON.stringify(typeof INITIAL_TOURS !== 'undefined' ? INITIAL_TOURS : []));
     }
     if (!localStorage.getItem(STORAGE_KEYS.CART)) {
       localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify([]));
@@ -117,7 +122,7 @@ const StorageService = {
     window.dispatchEvent(new CustomEvent("cart_updated", { detail: cart }));
   },
 
-  // Đơn hàng
+  // Đơn hàng nông sản
   getOrders() {
     this.init();
     try {
@@ -150,6 +155,39 @@ const StorageService = {
     return false;
   },
 
+  // Quản lý Đặt Tour Nông Nghiệp
+  getTours() {
+    this.init();
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.TOURS)) || [];
+    } catch (e) {
+      return typeof INITIAL_TOURS !== 'undefined' ? INITIAL_TOURS : [];
+    }
+  },
+
+  saveTours(tours) {
+    localStorage.setItem(STORAGE_KEYS.TOURS, JSON.stringify(tours));
+    window.dispatchEvent(new CustomEvent("tours_updated", { detail: tours }));
+  },
+
+  addTourBooking(booking) {
+    const tours = this.getTours();
+    tours.unshift(booking);
+    this.saveTours(tours);
+    return booking;
+  },
+
+  updateTourStatus(tourId, newStatus) {
+    const tours = this.getTours();
+    const target = tours.find(t => t.id === tourId);
+    if (target) {
+      target.status = newStatus;
+      this.saveTours(tours);
+      return true;
+    }
+    return false;
+  },
+
   // Mã giảm giá
   getCoupons() {
     this.init();
@@ -170,35 +208,35 @@ const StorageService = {
     }
   },
 
-  // Khôi phục dữ liệu gốc ban đầu (Cực kỳ tiện khi demo)
+  // Khôi phục dữ liệu gốc ban đầu
   resetToDefaults() {
     localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(INITIAL_PRODUCTS));
     localStorage.setItem(STORAGE_KEYS.COUPONS, JSON.stringify(INITIAL_COUPONS));
     localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(INITIAL_ORDERS));
+    localStorage.setItem(STORAGE_KEYS.TOURS, JSON.stringify(typeof INITIAL_TOURS !== 'undefined' ? INITIAL_TOURS : []));
     localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify([]));
     localStorage.setItem(STORAGE_KEYS.SHOP_CONFIG, JSON.stringify(SHOP_CONFIG));
     window.location.reload();
   }
 };
 
-// Hàm tiện ích định dạng tiền tệ VND
+// Định dạng tiền tệ VND
 function formatCurrency(amount) {
-  if (isNaN(amount)) return "0 đ";
-  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount);
+  if (typeof amount !== "number" || isNaN(amount)) return "0 đ";
+  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" })
+    .format(amount)
+    .replace("₫", "đ");
 }
 
-// Hàm tiện ích định dạng ngày giờ Việt Nam
+// Định dạng ngày giờ
 function formatDateTime(isoString) {
   if (!isoString) return "";
   const d = new Date(isoString);
   return d.toLocaleDateString("vi-VN", {
+    hour: "2-digit",
+    minute: "2-digit",
     day: "2-digit",
     month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
+    year: "numeric"
   });
 }
-
-// Khởi chạy sẵn khi file được nạp
-StorageService.init();

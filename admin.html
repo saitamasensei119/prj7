@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Bảng Quản Trị Sen Đá House (Admin Demo)</title>
-  <meta name="description" content="Trang quản lý đơn hàng và danh mục cây cảnh của Sen Đá House" />
+  <title>Bảng Quản Trị HTX Sen Bách Liên (Admin Demo)</title>
+  <meta name="description" content="Trang quản lý đơn hàng nông sản, lịch đặt tour và danh mục OCOP của HTX Sen Bách Liên" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="theme-color" content="#1b4332" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪷</text></svg>" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
     /* Styling riêng cho trang Admin */
@@ -127,10 +127,10 @@
   <header class="admin-header">
     <div class="container admin-header-inner">
       <div style="display: flex; align-items: center; gap: 14px;">
-        <div class="brand-logo-icon">🌿</div>
+        <div class="brand-logo-icon" style="font-size: 1.5rem; background: var(--primary-light); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 12px;">🪷</div>
         <div>
-          <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">Bảng Quản Trị Vườn Sen Đá</h2>
-          <span style="font-size: 0.78rem; color: var(--text-muted);">Hệ thống lưu trữ LocalStorage Demo • Không cần Server/CSDL</span>
+          <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">HTX Sen Bách Liên • Quản Trị</h2>
+          <span style="font-size: 0.78rem; color: var(--text-muted);">Hệ thống lưu trữ LocalStorage Demo • Nông sản OCOP & Tour Nông Nghiệp</span>
         </div>
       </div>
 
@@ -146,7 +146,7 @@
         </button>
 
         <!-- Nút Reset Dữ Liệu -->
-        <button class="btn btn-outline" style="font-size: 0.85rem; padding: 8px 16px; border-color: var(--danger); color: var(--danger);" onclick="if(confirm('Khôi phục toàn bộ đơn hàng và sản phẩm về trạng thái mẫu ban đầu?')) StorageService.resetToDefaults()">
+        <button class="btn btn-outline" style="font-size: 0.85rem; padding: 8px 16px; border-color: var(--danger); color: var(--danger);" onclick="if(confirm('Khôi phục toàn bộ đơn hàng, tour và sản phẩm về trạng thái mẫu ban đầu?')) StorageService.resetToDefaults()">
           🔄 Khôi Phục Dữ Liệu Gốc
         </button>
       </div>
@@ -157,37 +157,40 @@
     <!-- Thống kê KPI -->
     <div class="admin-kpi-grid">
       <div class="kpi-card">
-        <div class="kpi-title">Tổng Doanh Thu Ảo</div>
+        <div class="kpi-title">Tổng Doanh Thu (Hàng + Tour)</div>
         <div class="kpi-value" id="kpi-revenue">0 đ</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-title">Tổng Số Đơn Hàng</div>
+        <div class="kpi-title">Đơn Nông Sản OCOP</div>
         <div class="kpi-value" id="kpi-orders-count">0 đơn</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-title">Đơn Chờ Xác Nhận</div>
-        <div class="kpi-value" id="kpi-pending-count" style="color: var(--accent);">0 đơn</div>
+        <div class="kpi-title">Khách Đặt Tour Nông Dân</div>
+        <div class="kpi-value" id="kpi-pending-count" style="color: var(--accent);">0 đoàn</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-title">Sản Phẩm Đang Bán</div>
-        <div class="kpi-value" id="kpi-products-count">0 cây</div>
+        <div class="kpi-title">Sản Phẩm OCOP Đang Bán</div>
+        <div class="kpi-value" id="kpi-products-count">0 sản phẩm</div>
       </div>
     </div>
 
     <!-- Thanh chuyển Tab -->
     <div class="admin-tabs-nav">
       <button class="admin-tab-btn active" data-tab="orders" onclick="AdminApp.switchTab('orders')">
-        📦 Quản Lý Đơn Hàng Khách Đặt
+        📦 Đơn Hàng Nông Sản OCOP
+      </button>
+      <button class="admin-tab-btn" data-tab="tours" onclick="AdminApp.switchTab('tours')">
+        🚣 Lịch Đặt Tour "Làm Nông Dân"
       </button>
       <button class="admin-tab-btn" data-tab="products" onclick="AdminApp.switchTab('products')">
-        🪴 Quản Lý Danh Mục Cây Cảnh
+        🪷 Quản Lý Danh Mục OCOP
       </button>
     </div>
 
-    <!-- TAB 1: QUẢN LÝ ĐƠN HÀNG -->
+    <!-- TAB 1: QUẢN LÝ ĐƠN HÀNG NÔNG SẢN -->
     <section id="admin-orders-section" class="admin-card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
-        <h3 style="font-size: 1.15rem;">Danh Sách Đơn Hàng Mới Nhất</h3>
+        <h3 style="font-size: 1.15rem;">Danh Sách Đơn Hàng Nông Sản Mới Nhất</h3>
         
         <div style="display: flex; align-items: center; gap: 10px;">
           <span style="font-size: 0.85rem; color: var(--text-muted);">Lọc theo trạng thái:</span>
@@ -219,22 +222,60 @@
       </div>
     </section>
 
-    <!-- TAB 2: QUẢN LÝ SẢN PHẨM -->
+    <!-- TAB 2: QUẢN LÝ LỊCH ĐẶT TOUR NÔNG NGHIỆP -->
+    <section id="admin-tours-section" class="admin-card" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <h3 style="font-size: 1.15rem;">Lịch Khách Đăng Ký Tour "Một Ngày Làm Nông Dân"</h3>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Trải nghiệm đầm sen Kim Liên & xưởng sấy lạnh HTX Bách Liên</p>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Lọc trạng thái:</span>
+          <select id="admin-tour-filter" class="custom-select">
+            <option value="all">Tất cả lịch đặt</option>
+            <option value="pending">Chờ xác nhận</option>
+            <option value="confirmed">Đã xác nhận</option>
+            <option value="completed">Đã hoàn thành</option>
+            <option value="cancelled">Đã hủy</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="admin-table" aria-label="Bảng danh sách đặt tour">
+          <thead>
+            <tr>
+              <th scope="col">Mã Vé / Ngày Đặt</th>
+              <th scope="col">Ngày Đi Tour</th>
+              <th scope="col">Khách Hàng & Liên Hệ</th>
+              <th scope="col">Số Khách</th>
+              <th scope="col">Tổng Tiền</th>
+              <th scope="col">Trạng Thái Vé</th>
+              <th scope="col">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody id="admin-tours-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 3: QUẢN LÝ SẢN PHẨM OCOP -->
     <section id="admin-products-section" class="admin-card" style="display: none;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
-        <h3 style="font-size: 1.15rem;">Danh Sách Cây & Phụ Kiện Đang Bán</h3>
+        <h3 style="font-size: 1.15rem;">Danh Mục Sản Phẩm OCOP & Nông Sản Sen</h3>
         <button class="btn btn-primary" onclick="AdminApp.openAddProductModal()">
-          + Thêm Cây Mới
+          + Thêm Sản Phẩm OCOP
         </button>
       </div>
 
       <div style="overflow-x: auto;">
-        <table class="admin-table" aria-label="Bảng danh sách sản phẩm">
+        <table class="admin-table" aria-label="Bảng danh sách sản phẩm OCOP">
           <thead>
             <tr>
               <th scope="col">Hình Ảnh</th>
-              <th scope="col">Tên Cây / Tên Khoa Học</th>
-              <th scope="col">Phân Loại</th>
+              <th scope="col">Tên Sản Phẩm</th>
+              <th scope="col">Phân Hạng OCOP</th>
               <th scope="col">Giá Bán</th>
               <th scope="col">Đánh Giá / Đã Bán</th>
               <th scope="col">Tồn Kho</th>
@@ -248,115 +289,88 @@
   </main>
 
   <!-- MODAL THÊM SẢN PHẨM MỚI -->
-  <div class="modal-overlay" id="add-product-modal" role="dialog" aria-modal="true" aria-labelledby="add-modal-title">
-    <div class="modal-dialog">
-      <button class="modal-close-btn" onclick="AdminApp.closeAddProductModal()" aria-label="Đóng popup thêm cây">✕</button>
-      <div style="padding: 32px;">
-        <h3 id="add-modal-title" style="font-size: 1.35rem; margin-bottom: 8px;">Thêm Cây Mới Vào Cửa Hàng</h3>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Dữ liệu sẽ lưu ngay vào LocalStorage và hiển thị trên trang chủ</p>
+  <div class="modal-overlay" id="add-product-modal" role="dialog" aria-modal="true" aria-labelledby="add-prod-modal-title">
+    <div class="modal-dialog" style="max-width: 640px;">
+      <button class="modal-close-btn" onclick="AdminApp.closeAddProductModal()" aria-label="Đóng form">✕</button>
+      <div class="checkout-modal-content">
+        <h2 id="add-prod-modal-title" style="margin-bottom: 6px;">Thêm Sản Phẩm OCOP Mới</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Dữ liệu sẽ được lưu tức thì vào LocalStorage của trình duyệt</p>
 
         <form id="add-product-form">
           <div class="form-group">
-            <label>Tên cây cảnh *</label>
-            <input type="text" id="prod-name" class="form-control" placeholder="Ví dụ: Sen Đá Ruby Đỏ" required />
-          </div>
-
-          <div class="form-group">
-            <label>Tên khoa học (tùy chọn)</label>
-            <input type="text" id="prod-scientific" class="form-control" placeholder="Ví dụ: Echeveria Ruby" />
+            <label for="prod-name">Tên sản phẩm *</label>
+            <input type="text" id="prod-name" class="form-control" placeholder="Ví dụ: Trà Tâm Sen Bách Liên" required />
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
             <div class="form-group">
-              <label>Danh mục *</label>
-              <select id="prod-category" class="form-control">
-                <option value="sen-da">Sen Đá Búp & Độc Lạ</option>
-                <option value="xuong-rong">Xương Rồng Mini</option>
-                <option value="combo">Combo Quà Tặng</option>
-                <option value="phu-kien">Chậu Gốm & Đất Trồng</option>
+              <label for="prod-category">Danh mục *</label>
+              <select id="prod-category" class="custom-select" style="width: 100%;">
+                <option value="tra-sen">Trà Sen Thượng Hạng</option>
+                <option value="nong-san-sen">Nông Sản & Hạt Sen</option>
+                <option value="qua-tang">Hộp Quà Biếu OCOP</option>
               </select>
             </div>
+
             <div class="form-group">
-              <label>Độ khó chăm sóc</label>
-              <select id="prod-difficulty" class="form-control">
-                <option value="Rất dễ chăm">Rất dễ chăm</option>
-                <option value="Dễ chăm">Dễ chăm</option>
-                <option value="Trung bình">Trung bình</option>
+              <label for="prod-ocop-stars">Phân hạng OCOP *</label>
+              <select id="prod-ocop-stars" class="custom-select" style="width: 100%;">
+                <option value="4">⭐⭐⭐⭐ OCOP 4 Sao</option>
+                <option value="3">⭐⭐⭐ OCOP 3 Sao</option>
               </select>
             </div>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
             <div class="form-group">
-              <label>Giá bán (VNĐ) *</label>
-              <input type="number" id="prod-price" class="form-control" placeholder="Ví dụ: 65000" required />
+              <label for="prod-price">Giá bán (VNĐ) *</label>
+              <input type="number" id="prod-price" class="form-control" placeholder="Ví dụ: 145000" min="1000" required />
             </div>
+
             <div class="form-group">
-              <label>Giá gốc niêm yết (nếu có giảm giá)</label>
-              <input type="number" id="prod-original-price" class="form-control" placeholder="Ví dụ: 85000" />
+              <label for="prod-original-price">Giá gốc gạch ngang (nếu có)</label>
+              <input type="number" id="prod-original-price" class="form-control" placeholder="Ví dụ: 180000" min="1000" />
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label for="prod-packing">Quy cách đóng gói *</label>
+              <input type="text" id="prod-packing" class="form-control" placeholder="Ví dụ: Hũ thủy tinh 100g" required />
+            </div>
+
+            <div class="form-group">
+              <label for="prod-scientific">Tên khoa học / Phụ đề</label>
+              <input type="text" id="prod-scientific" class="form-control" placeholder="Ví dụ: Embryo Nelumbinis" />
             </div>
           </div>
 
           <div class="form-group">
-            <label>Link ảnh cây (URL ảnh trực tiếp)</label>
+            <label for="prod-image">Đường dẫn ảnh (URL)</label>
             <input type="url" id="prod-image" class="form-control" placeholder="https://images.unsplash.com/..." />
           </div>
 
           <div class="form-group">
-            <label>Mô tả ngắn *</label>
-            <textarea id="prod-desc" class="form-control" rows="2" placeholder="Đặc điểm lá, màu sắc và mẹo chăm sóc..." required></textarea>
+            <label for="prod-desc">Mô tả tóm tắt công dụng & dược tính *</label>
+            <textarea id="prod-desc" class="form-control" rows="3" placeholder="Tâm sen Kim Liên thu hái sớm, sấy lạnh giữ nguyên màu xanh ngọc, an thần định trí..." required></textarea>
           </div>
 
-          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 10px;">
-            Lưu Sản Phẩm
-          </button>
+          <div style="display: flex; gap: 12px; margin-top: 24px;">
+            <button type="button" class="btn btn-secondary" onclick="AdminApp.closeAddProductModal()" style="flex: 1;">
+              Hủy
+            </button>
+            <button type="submit" class="btn btn-primary" style="flex: 1;">
+              Lưu Sản Phẩm
+            </button>
+          </div>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- Modal Chi Tiết Đơn Hàng / VietQR Invoice -->
-  <div class="modal-overlay" id="order-success-modal">
-    <div class="modal-dialog">
-      <button class="modal-close-btn" onclick="CheckoutService.closeSuccessModal()">✕</button>
-      <div class="success-modal-content">
-        <h2>Chi Tiết Đơn Hàng</h2>
-        <span class="order-code-badge">Mã đơn: <strong id="success-order-id"></strong></span>
+  <div id="toast-container" role="status" aria-live="polite"></div>
 
-        <div style="background: var(--bg-subtle); padding: 14px 18px; border-radius: var(--radius-sm); text-align: left; font-size: 0.88rem; margin: 16px 0;">
-          <p><strong>Khách hàng:</strong> <span id="success-customer-name"></span> (<span id="success-customer-phone"></span>)</p>
-          <p><strong>Địa chỉ nhận:</strong> <span id="success-customer-address"></span></p>
-          <p><strong>Hình thức:</strong> <span id="success-payment-method"></span></p>
-          <p><strong>Tổng tiền:</strong> <strong style="color: var(--primary);" id="success-order-total"></strong></p>
-        </div>
-
-        <div class="vietqr-box" id="vietqr-container">
-          <h4 style="color: var(--primary); margin-bottom: 4px;">Mã VietQR Đã Tạo Cho Đơn Hàng</h4>
-          <img id="vietqr-image" class="vietqr-img" src="" alt="Mã VietQR" />
-          <div class="qr-info-table">
-            <p><span>Ngân hàng:</span> <strong id="qr-bank-name"></strong></p>
-            <p><span>Số tài khoản:</span> <strong id="qr-account-no"></strong></p>
-            <p><span>Chủ tài khoản:</span> <strong id="qr-account-name"></strong></p>
-            <p><span>Số tiền:</span> <strong id="qr-amount"></strong></p>
-            <p><span>Nội dung CK:</span> <strong id="qr-content" style="color: var(--danger);"></strong></p>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 16px;">
-          <button class="btn btn-secondary" onclick="window.print()">
-            🖨️ In Hóa Đơn
-          </button>
-          <button class="btn btn-primary" onclick="CheckoutService.closeSuccessModal()">
-            Đóng
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="toast-container"></div>
-
-  <!-- Scripts -->
+  <!-- Nạp script -->
   <script src="js/data.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/cart.js"></script>

@@ -2055,6 +2055,375 @@ img {
     width: 100%;
     justify-content: center;
   }
+/* ===================================================
+   OCOP BADGES & BRANDING (BÁCH LIÊN)
+   =================================================== */
+.badge-ocop {
+  background: linear-gradient(135deg, #b8860b 0%, #d4af37 50%, #aa771c 100%);
+  color: #ffffff !important;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 6px rgba(184, 134, 11, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.badge-ocop.ocop-star-4 {
+  background: linear-gradient(135deg, #b8860b 0%, #e6ca65 50%, #996515 100%);
+}
+
+.badge-ocop.ocop-star-3 {
+  background: linear-gradient(135deg, #a07855 0%, #c49a6c 50%, #875c36 100%);
+}
+
+/* ===================================================
+   SECTION: CÔNG NGHỆ SẤY LẠNH KHÉP KÍN
+   =================================================== */
+.facility-section {
+  padding: 64px 0;
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--surface-border);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.facility-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.facility-img-wrap {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.facility-img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+}
+
+.facility-tag-overlay {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(20, 32, 28, 0.85);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.facility-badge-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  margin-bottom: 12px;
+}
+
+.facility-content h2 {
+  font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.facility-content h2 span {
+  color: var(--primary);
+}
+
+.facility-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.facility-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.facility-spec-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.facility-spec-icon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.facility-spec-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.facility-spec-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ===================================================
+   SECTION: TOUR NÔNG NGHIỆP "MỘT NGÀY LÀM NÔNG DÂN"
+   =================================================== */
+.tour-section {
+  padding: 64px 0;
+  position: relative;
+}
+
+.tour-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.tour-image-col {
+  position: relative;
+}
+
+.tour-image {
+  width: 100%;
+  height: 100%;
+  min-height: 440px;
+  object-fit: cover;
+  display: block;
+}
+
+.tour-badge-floating {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(27, 67, 50, 0.92);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tour-content-col {
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tour-sub-tag {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.tour-title {
+  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.tour-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.tour-schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.tour-schedule-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 0.86rem;
+}
+
+.tour-schedule-time {
+  background: var(--bg-subtle);
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 0.78rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.tour-schedule-text strong {
+  color: var(--text-main);
+}
+
+.tour-schedule-text {
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.tour-pricing-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid var(--surface-border);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.tour-price-box .price-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+.tour-price-box .price-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.tour-price-box .price-child {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-left: 6px;
+}
+
+/* ===================================================
+   TOUR BOOKING MODAL
+   =================================================== */
+.tour-form-group {
+  margin-bottom: 16px;
+}
+
+.tour-form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-main);
+}
+
+.tour-counter-row {
+  display: flex;
+  gap: 16px;
+}
+
+.tour-counter-box {
+  flex: 1;
+  background: var(--bg-subtle);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+
+.tour-counter-box .box-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: block;
+}
+
+.tour-counter-box .box-price {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.tour-qty-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tour-qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+}
+
+.tour-qty-val {
+  font-weight: 800;
+  font-size: 1rem;
+  min-width: 24px;
+  text-align: center;
+}
+
+.tour-summary-box {
+  background: var(--primary-light);
+  border: 1px solid rgba(45, 106, 79, 0.2);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin: 20px 0;
+}
+
+.tour-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.tour-summary-total {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+@media (max-width: 900px) {
+  .facility-grid {
+    grid-template-columns: 1fr;
+  }
+  .tour-card {
+    grid-template-columns: 1fr;
+  }
+  .tour-image {
+    min-height: 260px;
+  }
+  .tour-content-col {
+    padding: 24px;
+  }
 }
 
 /* ===================================================

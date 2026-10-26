@@ -1,11 +1,13 @@
-// Module quản trị Admin Demo cho Sen Đá House (admin.js)
+// Module quản trị Admin Demo cho HTX Sen Bách Liên (admin.js)
+// Quản lý đơn hàng OCOP, lịch đăng ký Tour nông nghiệp & danh mục sản phẩm
 
 const AdminApp = {
-  currentTab: "orders", // 'orders' | 'products' | 'settings'
+  currentTab: "orders", // 'orders' | 'tours' | 'products'
 
   init() {
     this.renderKPIs();
     this.renderOrdersTable();
+    this.renderToursTable();
     this.renderProductsTable();
     this.bindEvents();
   },
@@ -13,23 +15,27 @@ const AdminApp = {
   // Hiển thị các thẻ chỉ số KPI
   renderKPIs() {
     const orders = StorageService.getOrders();
+    const tours = StorageService.getTours();
     const products = StorageService.getProducts();
 
-    const totalRevenue = orders.reduce((sum, o) => {
-      // Chỉ tính doanh thu các đơn không bị hủy
+    const orderRevenue = orders.reduce((sum, o) => {
       return o.status !== "cancelled" ? sum + o.total : sum;
     }, 0);
 
-    const pendingOrdersCount = orders.filter(o => o.status === "processing").length;
-    const completedOrdersCount = orders.filter(o => o.status === "completed").length;
+    const tourRevenue = tours.reduce((sum, t) => {
+      return t.status !== "cancelled" ? sum + (t.total || 0) : sum;
+    }, 0);
 
-    document.getElementById("kpi-revenue").textContent = formatCurrency(totalRevenue);
+    const pendingOrdersCount = orders.filter(o => o.status === "processing").length;
+    const totalTourGuests = tours.reduce((sum, t) => sum + (t.adults || 0) + (t.children || 0), 0);
+
+    document.getElementById("kpi-revenue").textContent = formatCurrency(orderRevenue + tourRevenue);
     document.getElementById("kpi-orders-count").textContent = `${orders.length} đơn`;
-    document.getElementById("kpi-pending-count").textContent = `${pendingOrdersCount} đơn`;
-    document.getElementById("kpi-products-count").textContent = `${products.length} cây`;
+    document.getElementById("kpi-pending-count").textContent = `${tours.length} đoàn (${totalTourGuests} khách)`;
+    document.getElementById("kpi-products-count").textContent = `${products.length} sản phẩm`;
   },
 
-  // Hiển thị bảng danh sách đơn hàng
+  // Hiển thị bảng danh sách đơn hàng nông sản
   renderOrdersTable(filterStatus = "all") {
     const tbody = document.getElementById("admin-orders-tbody");
     if (!tbody) return;
@@ -58,7 +64,7 @@ const AdminApp = {
     ];
 
     tbody.innerHTML = orders.map(order => {
-      const itemsList = order.items.map(i => `• ${i.name} (${i.pot}) x${i.quantity}`).join("<br/>");
+      const itemsList = order.items.map(i => `• ${i.name} (${i.pot || 'Tiêu chuẩn'}) x${i.quantity}`).join("<br/>");
       const paymentBadge = order.paymentMethod === "vietqr" 
         ? `<span class="badge" style="background: #0284c7; color: white;">VietQR</span>`
         : `<span class="badge" style="background: #64748b; color: white;">COD</span>`;
@@ -73,7 +79,7 @@ const AdminApp = {
             <strong>${order.customer.name}</strong>
             <br/><span style="color: var(--primary); font-size: 0.82rem;">📞 ${order.customer.phone}</span>
             <br/><small style="color: var(--text-muted);">${order.customer.address}</small>
-            ${order.customer.note ? `<br/><small style="color: var(--accent); font-style: italic;">Note: ${order.customer.note}</small>` : ""}
+            ${order.customer.note ? `<br/><small style="color: var(--accent); font-style: italic;">Ghi chú: ${order.customer.note}</small>` : ""}
           </td>
           <td style="font-size: 0.85rem; line-height: 1.4;">
             ${itemsList}
@@ -109,7 +115,85 @@ const AdminApp = {
     CartService.showToast(`Đã đổi trạng thái đơn ${orderId} thành công!`, "success");
   },
 
-  // Hiển thị danh sách sản phẩm quản trị
+  // ==========================================
+  // HIỂN THỊ BẢNG ĐẶT TOUR NÔNG NGHIỆP
+  // ==========================================
+  renderToursTable(filterStatus = "all") {
+    const tbody = document.getElementById("admin-tours-tbody");
+    if (!tbody) return;
+
+    let tours = StorageService.getTours();
+    if (filterStatus !== "all") {
+      tours = tours.filter(t => t.status === filterStatus);
+    }
+
+    if (tours.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            Chưa có lịch đặt tour nào trong mục này.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    const tourStatusOptions = [
+      { val: "pending", label: "Chờ xác nhận" },
+      { val: "confirmed", label: "Đã xác nhận" },
+      { val: "completed", label: "Đã hoàn thành" },
+      { val: "cancelled", label: "Đã hủy" }
+    ];
+
+    tbody.innerHTML = tours.map(tour => {
+      const tourFormattedDate = tour.tourDate ? new Date(tour.tourDate).toLocaleDateString("vi-VN", { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' }) : "Chưa chọn";
+      
+      return `
+        <tr>
+          <td>
+            <strong>${tour.id}</strong>
+            <br/><small style="color: var(--text-light);">${formatDateTime(tour.createdAt)}</small>
+          </td>
+          <td>
+            <strong style="color: var(--primary); font-size: 0.95rem;">📅 ${tourFormattedDate}</strong>
+          </td>
+          <td>
+            <strong>${tour.customer.name}</strong>
+            <br/><span style="color: var(--primary); font-size: 0.82rem;">📞 ${tour.customer.phone}</span>
+            ${tour.customer.email ? `<br/><small style="color: var(--text-muted);">✉️ ${tour.customer.email}</small>` : ""}
+            ${tour.customer.note ? `<br/><small style="color: var(--accent); font-style: italic;">Yêu cầu: ${tour.customer.note}</small>` : ""}
+          </td>
+          <td>
+            <strong>${tour.adults}</strong> Người lớn
+            ${tour.children > 0 ? `<br/><small style="color: var(--text-muted);">${tour.children} Trẻ em</small>` : ""}
+          </td>
+          <td>
+            <strong style="color: var(--primary); font-size: 1rem;">${formatCurrency(tour.total)}</strong>
+          </td>
+          <td>
+            <select class="custom-select status-select" onchange="AdminApp.handleTourStatusChange('${tour.id}', this.value)">
+              ${tourStatusOptions.map(opt => `
+                <option value="${opt.val}" ${tour.status === opt.val ? 'selected' : ''}>${opt.label}</option>
+              `).join("")}
+            </select>
+          </td>
+          <td>
+            <a href="https://zalo.me/${tour.customer.phone}" target="_blank" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px;">
+              💬 Zalo Khách
+            </a>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  },
+
+  handleTourStatusChange(tourId, newStatus) {
+    StorageService.updateTourStatus(tourId, newStatus);
+    this.renderKPIs();
+    CartService.showToast(`Đã cập nhật trạng thái vé ${tourId}!`, "success");
+  },
+
+  // Hiển thị danh sách sản phẩm OCOP
   renderProductsTable() {
     const tbody = document.getElementById("admin-products-tbody");
     if (!tbody) return;
@@ -126,7 +210,10 @@ const AdminApp = {
           <br/><small style="color: var(--text-muted); font-style: italic;">${prod.scientificName || ""}</small>
         </td>
         <td>
-          <span class="badge" style="background: var(--bg-subtle); color: var(--text-main);">${prod.categoryName || prod.category}</span>
+          <span class="badge ${prod.ocopStars ? 'badge-ocop ocop-star-' + prod.ocopStars : ''}" style="margin-bottom: 4px; display: inline-block;">
+            ${prod.ocopStars ? `⭐ OCOP ${prod.ocopStars} Sao` : 'Tiêu chuẩn'}
+          </span>
+          <br/><small style="color: var(--text-muted);">${prod.categoryName || prod.category}</small>
         </td>
         <td>
           <strong style="color: var(--primary);">${formatCurrency(prod.price)}</strong>
@@ -136,7 +223,7 @@ const AdminApp = {
           ⭐ ${prod.rating} (${prod.sold || 0} đã bán)
         </td>
         <td>
-          <span class="badge" style="background: #dcfce7; color: #166534;">Còn ${prod.stock || 20} cây</span>
+          <span class="badge" style="background: #dcfce7; color: #166534;">Còn ${prod.stock || 20} sp</span>
         </td>
         <td>
           <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 0.78rem; color: var(--danger);" onclick="AdminApp.deleteProduct(${prod.id})">
@@ -179,48 +266,51 @@ const AdminApp = {
     e.preventDefault();
 
     const name = document.getElementById("prod-name").value.trim();
-    const scientificName = document.getElementById("prod-scientific").value.trim();
+    const scientificName = document.getElementById("prod-scientific")?.value.trim() || "";
     const category = document.getElementById("prod-category").value;
+    const ocopStars = Number(document.getElementById("prod-ocop-stars")?.value || 4);
     const price = Number(document.getElementById("prod-price").value);
     const originalPrice = Number(document.getElementById("prod-original-price").value) || price;
-    const difficulty = document.getElementById("prod-difficulty").value;
-    const image = document.getElementById("prod-image").value.trim() || "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80";
+    const packing = document.getElementById("prod-packing")?.value.trim() || "Hộp tiêu chuẩn";
+    const image = document.getElementById("prod-image").value.trim() || "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80";
     const shortDesc = document.getElementById("prod-desc").value.trim();
 
     const catNames = {
-      "sen-da": "Sen Đá",
-      "xuong-rong": "Xương Rồng",
-      "combo": "Combo Quà Tặng",
-      "phu-kien": "Chậu & Phụ Kiện"
+      "tra-sen": "Trà Sen Thượng Hạng",
+      "nong-san-sen": "Nông Sản & Hạt Sen",
+      "qua-tang": "Hộp Quà Biếu OCOP"
     };
 
     const newProd = {
       name,
       scientificName,
       category,
-      categoryName: catNames[category] || "Cây cảnh",
+      categoryName: catNames[category] || "Nông sản Sen",
+      ocopStars,
       price,
       originalPrice,
-      difficulty,
-      light: "Ánh sáng tán xạ 4-6h/ngày",
-      water: "Tưới 1-2 lần/tuần",
-      size: "7 - 9 cm",
+      packing,
+      origin: "Xã Kim Liên, Nam Đàn, Nghệ An",
+      processMethod: "Sấy lạnh khép kín Lio-Pharm",
       rating: 5.0,
       reviewsCount: 1,
       sold: 0,
-      stock: 25,
-      tag: "Mới về",
+      stock: 30,
+      tag: `OCOP ${ocopStars} Sao`,
       image,
       gallery: [image],
       shortDesc,
-      description: shortDesc
+      description: shortDesc,
+      packingOptions: [
+        { name: packing, priceDelta: 0, desc: "Đóng gói tiêu chuẩn HTX Bách Liên" }
+      ]
     };
 
     StorageService.upsertProduct(newProd);
     this.closeAddProductModal();
     this.renderProductsTable();
     this.renderKPIs();
-    CartService.showToast(`Đã thêm cây "${name}" thành công!`, "success");
+    CartService.showToast(`Đã thêm sản phẩm "${name}" thành công!`, "success");
     e.target.reset();
   },
 
@@ -233,7 +323,7 @@ const AdminApp = {
     CheckoutService.openSuccessModal(order);
   },
 
-  // Chuyển tab giữa Đơn Hàng & Sản Phẩm
+  // Chuyển tab giữa Đơn Hàng, Đặt Tour & Sản Phẩm
   switchTab(tabName) {
     this.currentTab = tabName;
     document.querySelectorAll(".admin-tab-btn").forEach(btn => {
@@ -241,6 +331,7 @@ const AdminApp = {
     });
 
     document.getElementById("admin-orders-section").style.display = tabName === "orders" ? "block" : "none";
+    document.getElementById("admin-tours-section").style.display = tabName === "tours" ? "block" : "none";
     document.getElementById("admin-products-section").style.display = tabName === "products" ? "block" : "none";
   },
 
@@ -250,6 +341,14 @@ const AdminApp = {
     if (filterSelect) {
       filterSelect.addEventListener("change", (e) => {
         this.renderOrdersTable(e.target.value);
+      });
+    }
+
+    // Lọc trạng thái tour
+    const tourFilterSelect = document.getElementById("admin-tour-filter");
+    if (tourFilterSelect) {
+      tourFilterSelect.addEventListener("change", (e) => {
+        this.renderToursTable(e.target.value);
       });
     }
 
