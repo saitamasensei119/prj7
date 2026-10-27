@@ -20,11 +20,12 @@ const App = {
   init() {
     this.initTheme();
     this.renderProducts();
-    CartService.renderCartUI();
+    if (typeof CartService !== "undefined") CartService.renderCartUI();
     this.bindEvents();
     this.setupBackToTop();
     this.setupTourDefaults();
     this.setupGroupDefaults();
+    this.setupTourPageDefaults();
   },
 
   setupGroupDefaults() {
@@ -743,6 +744,253 @@ const App = {
   closeGroupSuccessModal() {
     const modal = document.getElementById("group-success-modal");
     const backdrop = document.getElementById("group-success-backdrop");
+    if (modal && backdrop) {
+      modal.classList.remove("open");
+      backdrop.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+  },
+
+  // ==========================================
+  // XỬ LÝ TRANG CHUYÊN ĐỀ TOUR (TOUR.HTML)
+  // ==========================================
+  setupTourPageDefaults() {
+    const tourDateInput = document.getElementById("tour-date");
+    if (tourDateInput) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const minDate = tomorrow.toISOString().split("T")[0];
+      tourDateInput.min = minDate;
+      if (!tourDateInput.value) {
+        tourDateInput.value = minDate;
+      }
+      this.calcTourEstimate();
+    }
+  },
+
+  switchTourTab(tabKey) {
+    const btnSchool = document.getElementById("tab-btn-school");
+    const btnPublic = document.getElementById("tab-btn-public");
+    const gridSchool = document.getElementById("packages-school-grid");
+    const gridPublic = document.getElementById("packages-public-grid");
+
+    if (!btnSchool || !btnPublic || !gridSchool || !gridPublic) return;
+
+    if (tabKey === "school") {
+      btnSchool.classList.add("active");
+      btnSchool.setAttribute("aria-selected", "true");
+      btnPublic.classList.remove("active");
+      btnPublic.setAttribute("aria-selected", "false");
+      gridSchool.style.display = "grid";
+      gridPublic.style.display = "none";
+    } else {
+      btnPublic.classList.add("active");
+      btnPublic.setAttribute("aria-selected", "true");
+      btnSchool.classList.remove("active");
+      btnSchool.setAttribute("aria-selected", "false");
+      gridPublic.style.display = "grid";
+      gridSchool.style.display = "none";
+    }
+  },
+
+  selectTourPackage(pkgId) {
+    if (pkgId.startsWith("SCH")) {
+      this.switchTourTab("school");
+    } else {
+      this.switchTourTab("public");
+    }
+
+    const select = document.getElementById("tour-pkg-select");
+    if (select) {
+      select.value = pkgId;
+      this.calcTourEstimate();
+    }
+
+    const section = document.getElementById("tour-booking-section");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  },
+
+  calcTourEstimate() {
+    const select = document.getElementById("tour-pkg-select");
+    const countInput = document.getElementById("tour-count");
+    const teachersInput = document.getElementById("tour-teachers");
+    const mealCheckbox = document.getElementById("tour-meal-checkbox");
+    const mealOptionBox = document.getElementById("tour-meal-option-box");
+
+    if (!select || !countInput) return;
+
+    const pkgId = select.value;
+    const count = Math.max(1, parseInt(countInput.value) || 1);
+    const teachers = parseInt(teachersInput?.value) || 0;
+
+    // Tìm gói trong data.js
+    const pkg = (typeof TOUR_PACKAGES !== "undefined") 
+      ? TOUR_PACKAGES.find(p => p.id === pkgId) 
+      : null;
+
+    if (!pkg) return;
+
+    // Cập nhật nhãn số lượng nếu là gói Combo gia đình
+    const countLabel = document.getElementById("tour-count-label");
+    const countHint = document.getElementById("tour-count-hint");
+    if (pkg.isCombo) {
+      if (countLabel) countLabel.textContent = "Số lượng combo gia đình (3–5 người/combo) *";
+      if (countHint) countHint.textContent = "(Đã bao gồm mâm cơm sen đặc sản & HDV riêng)";
+    } else if (pkg.category === "school") {
+      if (countLabel) countLabel.textContent = "Số lượng học sinh tham gia *";
+      if (countHint) countHint.textContent = "(Tỷ lệ 15 học sinh được miễn phí vé 1 giáo viên phụ trách)";
+    } else {
+      if (countLabel) countLabel.textContent = "Số lượng khách tham gia *";
+      if (countHint) countHint.textContent = "(Áp dụng cho khách đại chúng, người lớn & trẻ em)";
+    }
+
+    // Ẩn hiện tùy chọn cơm quê sen (chỉ áp dụng cho SCH-02)
+    const hasMeal = pkg.hasMealOption && mealCheckbox && mealCheckbox.checked;
+    if (mealOptionBox) {
+      mealOptionBox.style.display = pkg.hasMealOption ? "block" : "none";
+    }
+
+    // Tính tổng tiền
+    let unitPrice = pkg.basePrice;
+    let extraMealPerPerson = hasMeal ? (pkg.mealPrice || 40000) : 0;
+    let total = (unitPrice + extraMealPerPerson) * count;
+
+    // Cập nhật giao diện dự toán
+    const estPkgName = document.getElementById("est-package-name");
+    const estUnitPrice = document.getElementById("est-unit-price");
+    const estMealRow = document.getElementById("est-meal-row");
+    const estHeadcount = document.getElementById("est-headcount");
+    const estTotal = document.getElementById("est-total-amount");
+
+    if (estPkgName) estPkgName.textContent = pkg.name;
+    if (estUnitPrice) {
+      estUnitPrice.textContent = `${formatCurrency(pkg.basePrice)} / ${pkg.unit}`;
+    }
+    if (estMealRow) {
+      estMealRow.style.display = hasMeal ? "flex" : "none";
+    }
+    if (estHeadcount) {
+      if (pkg.isCombo) {
+        estHeadcount.textContent = `${count} combo gia đình`;
+      } else if (pkg.category === "school") {
+        estHeadcount.textContent = `${count} học sinh + ${teachers} giáo viên`;
+      } else {
+        estHeadcount.textContent = `${count} khách`;
+      }
+    }
+    if (estTotal) {
+      estTotal.textContent = formatCurrency(total);
+    }
+
+    // Cập nhật link Zalo trực tiếp
+    const zaloDirectBtn = document.getElementById("btn-zalo-tour-direct");
+    if (zaloDirectBtn) {
+      const zaloTxt = encodeURIComponent(
+        `Chào HTX Sen Bách Liên, tôi muốn tư vấn đăng ký gói "${pkg.name}" (${count} ${pkg.unit}). Dự toán dự kiến: ${formatCurrency(total)}. Nhờ HTX gửi kế hoạch chi tiết giúp tôi nhé!`
+      );
+      zaloDirectBtn.href = `https://zalo.me/0988123456?text=${zaloTxt}`;
+    }
+
+    return total;
+  },
+
+  handleTourBookingSubmit(e) {
+    e.preventDefault();
+    const select = document.getElementById("tour-pkg-select");
+    const contactName = document.getElementById("tour-contact-name")?.value.trim();
+    const phone = document.getElementById("tour-phone")?.value.trim();
+    const org = document.getElementById("tour-org")?.value.trim() || "";
+    const visitDate = document.getElementById("tour-date")?.value;
+    const count = parseInt(document.getElementById("tour-count")?.value) || 1;
+    const teachers = parseInt(document.getElementById("tour-teachers")?.value) || 0;
+    const notes = document.getElementById("tour-notes")?.value.trim() || "";
+    const mealCheckbox = document.getElementById("tour-meal-checkbox");
+    const hasMeal = mealCheckbox ? mealCheckbox.checked : false;
+
+    if (!select || !contactName || !phone || !visitDate) {
+      alert("Vui lòng điền đầy đủ các thông tin bắt buộc (*)");
+      return;
+    }
+
+    const pkgId = select.value;
+    const pkg = (typeof TOUR_PACKAGES !== "undefined") ? TOUR_PACKAGES.find(p => p.id === pkgId) : null;
+    const packageName = pkg ? pkg.name : select.options[select.selectedIndex]?.text;
+    const estimatedTotal = this.calcTourEstimate() || 0;
+    const bookingId = "TOUR-" + Math.floor(1000 + Math.random() * 9000);
+
+    const bookingData = {
+      id: bookingId,
+      createdAt: new Date().toISOString(),
+      pkgId: pkgId,
+      packageName: packageName,
+      contactName: contactName,
+      phone: phone,
+      org: org,
+      visitDate: visitDate,
+      count: count,
+      teachers: teachers,
+      hasMeal: hasMeal,
+      notes: notes,
+      total: estimatedTotal,
+      status: "pending"
+    };
+
+    // Lưu vào LocalStorage qua StorageService
+    if (typeof StorageService !== "undefined") {
+      StorageService.addTourBooking(bookingData);
+    }
+
+    // Điền dữ liệu vào modal biên nhận
+    const rId = document.getElementById("tour-receipt-id");
+    const rPkg = document.getElementById("tour-receipt-pkg");
+    const rContact = document.getElementById("tour-receipt-contact");
+    const rPhone = document.getElementById("tour-receipt-phone");
+    const rOrg = document.getElementById("tour-receipt-org");
+    const rDate = document.getElementById("tour-receipt-date");
+    const rCounts = document.getElementById("tour-receipt-counts");
+    const rTotal = document.getElementById("tour-receipt-total");
+
+    if (rId) rId.textContent = bookingId;
+    if (rPkg) rPkg.textContent = packageName;
+    if (rContact) rContact.textContent = contactName;
+    if (rPhone) rPhone.textContent = phone;
+    if (rOrg) rOrg.textContent = org || "Khách tự do";
+    if (rDate) rDate.textContent = visitDate;
+    if (rCounts) {
+      rCounts.textContent = (pkg && pkg.isCombo) 
+        ? `${count} combo gia đình` 
+        : `${count} khách ${teachers > 0 ? '(+' + teachers + ' người phụ trách)' : ''}`;
+    }
+    if (rTotal) rTotal.textContent = formatCurrency(estimatedTotal);
+
+    // Cập nhật nút Zalo trong modal
+    const zaloModalBtn = document.getElementById("tour-receipt-zalo-btn");
+    if (zaloModalBtn) {
+      const msg = encodeURIComponent(
+        `Chào HTX Sen Bách Liên, tôi là ${contactName} (${org ? org + ', ' : ''}SĐT: ${phone}). Tôi vừa gửi phiếu đặt tour mã ${bookingId} vào ngày ${visitDate} (${packageName}, ${count} ${pkg ? pkg.unit : 'người'}). Dự toán: ${formatCurrency(estimatedTotal)}. Nhờ HTX xác nhận và tư vấn chi tiết giúp tôi nhé!`
+      );
+      zaloModalBtn.href = `https://zalo.me/0988123456?text=${msg}`;
+    }
+
+    // Hiển thị modal
+    const modal = document.getElementById("tour-success-modal");
+    const backdrop = document.getElementById("tour-success-backdrop");
+    if (modal && backdrop) {
+      modal.classList.add("open");
+      backdrop.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    // Reset form
+    e.target.reset();
+    this.setupTourPageDefaults();
+  },
+
+  closeTourSuccessModal() {
+    const modal = document.getElementById("tour-success-modal");
+    const backdrop = document.getElementById("tour-success-backdrop");
     if (modal && backdrop) {
       modal.classList.remove("open");
       backdrop.classList.remove("open");

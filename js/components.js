@@ -50,8 +50,13 @@ const SiteComponents = {
             </div>
           </a>
 
-          
-
+          <!-- Menu Điều Hướng Đa Trang -->
+          <div class="nav-menu-links">
+            <a href="index.html" class="nav-link ${activePage === 'home' ? 'active' : ''}">Trang Chủ</a>
+            <a href="trai-nghiem.html" class="nav-link ${activePage === 'experience' ? 'active' : ''}">Chủ Đề Trải Nghiệm</a>
+            <a href="tour.html" class="nav-link ${activePage === 'tour' ? 'active' : ''}">Tour Du Lịch</a>
+            <a href="index.html#catalog-section" class="nav-link ${activePage === 'shop' ? 'active' : ''}">Đặc Sản OCOP</a>
+          </div>
           <!-- Ô tìm kiếm tức thì -->
           <div class="search-box">
             <div class="search-input-wrap">
@@ -155,7 +160,7 @@ const SiteComponents = {
                 <li><a href="trai-nghiem.html#theme-2"> Nghệ Nhân Sen Xứ Nghệ (3 Workshop STEM)</a></li>
                 <li><a href="trai-nghiem.html#theme-3"> Làn Điệu Ví, Giặm Quê Hương (UNESCO)</a></li>
                 <li><a href="trai-nghiem.html#group-booking-section"> Đăng Ký Khách Đoàn / Trường Học</a></li>
-                <li><a href="index.html#tour-section"> Tour Một Ngày Làm Nông Dân</a></li>
+                <li><a href="tour.html">Các Gói Tour Du Lịch Quanh Năm</a></li>
                 <li><a href="javascript:void(0)" onclick="App.openOrderTrackingModal()"> Tra cứu đơn hàng nông sản</a></li>
               </ul>
             </div>

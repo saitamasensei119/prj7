@@ -153,26 +153,39 @@ const AdminApp = {
     ];
 
     tbody.innerHTML = tours.map(tour => {
-      const tourFormattedDate = tour.tourDate ? new Date(tour.tourDate).toLocaleDateString("vi-VN", { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' }) : "Chưa chọn";
+      const rawDate = tour.tourDate || tour.visitDate;
+      const tourFormattedDate = rawDate ? new Date(rawDate).toLocaleDateString("vi-VN", { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' }) : "Chưa chọn";
+      const custName = tour.customer ? tour.customer.name : (tour.contactName || "Khách đặt tour");
+      const custPhone = tour.customer ? tour.customer.phone : (tour.phone || "");
+      const custEmail = tour.customer ? tour.customer.email : (tour.email || "");
+      const custNotes = (tour.org ? `<strong>Đơn vị:</strong> ${tour.org}<br/>` : "") + (tour.customer ? tour.customer.note : (tour.notes || ""));
+      const pkgLabel = tour.packageName ? `<div style="color: var(--primary); font-weight: 700; font-size: 0.85rem; margin-top: 4px;">🏷️ ${tour.packageName}</div>` : "";
       
+      let countDisplay = "";
+      if (tour.count !== undefined) {
+        countDisplay = `<strong>${tour.count}</strong> người ${tour.teachers ? `<br/><small style="color: var(--text-muted);">(+${tour.teachers} GV/Phụ huynh)</small>` : ""}`;
+      } else {
+        countDisplay = `<strong>${tour.adults || 0}</strong> Người lớn ${tour.children > 0 ? `<br/><small style="color: var(--text-muted);">${tour.children} Trẻ em</small>` : ""}`;
+      }
+
       return `
         <tr>
           <td>
             <strong>${tour.id}</strong>
             <br/><small style="color: var(--text-light);">${formatDateTime(tour.createdAt)}</small>
+            ${pkgLabel}
           </td>
           <td>
             <strong style="color: var(--primary); font-size: 0.95rem;">📅 ${tourFormattedDate}</strong>
           </td>
           <td>
-            <strong>${tour.customer.name}</strong>
-            <br/><span style="color: var(--primary); font-size: 0.82rem;">📞 ${tour.customer.phone}</span>
-            ${tour.customer.email ? `<br/><small style="color: var(--text-muted);">✉️ ${tour.customer.email}</small>` : ""}
-            ${tour.customer.note ? `<br/><small style="color: var(--accent); font-style: italic;">Yêu cầu: ${tour.customer.note}</small>` : ""}
+            <strong>${custName}</strong>
+            ${custPhone ? `<br/><span style="color: var(--primary); font-size: 0.82rem;">📞 ${custPhone}</span>` : ""}
+            ${custEmail ? `<br/><small style="color: var(--text-muted);">✉️ ${custEmail}</small>` : ""}
+            ${custNotes ? `<br/><small style="color: var(--accent); font-style: italic;">${custNotes}</small>` : ""}
           </td>
           <td>
-            <strong>${tour.adults}</strong> Người lớn
-            ${tour.children > 0 ? `<br/><small style="color: var(--text-muted);">${tour.children} Trẻ em</small>` : ""}
+            ${countDisplay}
           </td>
           <td>
             <strong style="color: var(--primary); font-size: 1rem;">${formatCurrency(tour.total)}</strong>
@@ -185,7 +198,7 @@ const AdminApp = {
             </select>
           </td>
           <td>
-            <a href="https://zalo.me/${tour.customer.phone}" target="_blank" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px;">
+            <a href="https://zalo.me/${custPhone}" target="_blank" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px;">
               💬 Zalo Khách
             </a>
           </td>

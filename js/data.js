@@ -601,7 +601,160 @@ const INITIAL_GROUP_BOOKINGS = [
     teacherCount: 2,
     estimatedTotal: 7500000, // 30 x 250.000đ
     specialRequests: "Tập trung 3 workshop làm nến thơm và tranh lá sen đóng khung mang về.",
-    status: "pending"
+  }
+];
+
+// ===================================================
+// HỆ THỐNG 6 GÓI TOUR & DỊCH VỤ TRẢI NGHIỆM LINH HOẠT QUANH NĂM
+// (Theo tài liệu Dự án Khởi nghiệp từ Sen - HTX Bách Liên)
+// ===================================================
+const TOUR_PACKAGES = [
+  // --- NHÓM 1: DÀNH CHO HỌC SINH PHỔ THÔNG (Tháng 9 - Tháng 5) ---
+  {
+    id: "SCH-01",
+    category: "school",
+    name: "Theo Chân Bác – Thấu Cảm Hương Sen",
+    tagline: "Giáo dục truyền thống & Di sản quê hương",
+    target: "Học sinh Tiểu học, THCS",
+    duration: "Nửa ngày (Buổi sáng 08:00 - 11:30 hoặc chiều 13:30 - 17:00)",
+    season: "Tháng 9 đến tháng 5 (Trong năm học)",
+    priceRange: "100.000 – 120.000 đ/em",
+    basePrice: 110000,
+    unit: "em",
+    hasMealOption: false,
+    image: "assets/images/lang_sen_tuoi_tho.jpg",
+    highlights: [
+      "Tham quan Khu di tích Quốc gia đặc biệt Kim Liên (Quê nội Làng Sen, Quê ngoại Hoàng Trù)",
+      "Tìm hiểu nếp nhà tranh, gia đình cụ Phó bảng Nguyễn Sinh Sắc và bà Hoàng Thị Loan",
+      "Hoàn thành 'Sổ tay di sản Làng Sen' với các câu hỏi tương tác khám phá lịch sử",
+      "Giao lưu, học hát các làn điệu Dân ca Ví, Giặm Nghệ Tĩnh cùng nghệ nhân tại đầm sen",
+      "Thưởng thức nước mát trà lá sen & bánh cà hạt sen Quê Bác giải lao"
+    ],
+    takeaway: "Sổ tay di sản Làng Sen hoàn thành, Giấy chứng nhận tham gia hành trình",
+    minPax: 20
+  },
+  {
+    id: "SCH-02",
+    category: "school",
+    name: "Nghệ Nhân Sen Nhí",
+    tagline: "STEM trải nghiệm thực hành nghề sen độc bản",
+    target: "Học sinh THCS, THPT",
+    duration: "Nửa ngày hoặc 1 ngày trọn gói",
+    season: "Tháng 9 đến tháng 5 (Trong năm học)",
+    priceRange: "165.000 – 180.000 đ/em",
+    basePrice: 170000,
+    unit: "em",
+    hasMealOption: true,
+    mealPrice: 40000, // Cơm quê từ sen +40.000đ/suất
+    image: "assets/images/diy_tranh_la_sen.jpg",
+    highlights: [
+      "Bao gồm toàn bộ nội dung tìm hiểu di sản & dân ca của Chương trình 1",
+      "02 Giờ thực hành chuyên sâu tại xưởng nghề thủ công Bách Liên:",
+      "• Lựa chọn 1: Tự tay ướp Trà Bông Sen Bách Diệp sấy lạnh mang về",
+      "• Lựa chọn 2: Học kỹ thuật ép lá sen khô tạo hình Tranh lá sen nghệ thuật đóng khung gỗ",
+      "Gói trọn ngày (tùy chọn): Thưởng thức bữa trưa cơm quê thực dưỡng 5 món từ sen (+40.000đ/suất)",
+      "Miễn phí vé trải nghiệm và cơm trưa cho giáo viên phụ trách đoàn (tỷ lệ 1 GV / 15 HS)"
+    ],
+    takeaway: "01 Đóa trà sen bách diệp tươi hút chân không HOẶC 01 Bức tranh lá sen đóng khung gỗ",
+    minPax: 20
+  },
+  {
+    id: "SCH-03",
+    category: "school",
+    name: "Trại Hè Kỹ Năng 'Mùa Sen Kim Liên'",
+    tagline: "Kỳ nghỉ hè bán trú sinh thái & rèn luyện kỹ năng sống",
+    target: "Học sinh từ 10 đến 18 tuổi",
+    duration: "3 – 5 Ngày bán trú (07:30 – 17:00 mỗi ngày)",
+    season: "Tháng 6 đến tháng 8 (Mùa sen nở rộ rực rỡ nhất)",
+    priceRange: "2.000.000 đ/em (Trọn gói 3 ngày)",
+    basePrice: 2000000,
+    unit: "em",
+    hasMealOption: false,
+    image: "assets/images/tour_nong_dan.jpg",
+    highlights: [
+      "Khám phá và nhận biết bộ sưu tập trên 100 giống sen quý của HTX Bách Liên",
+      "Tập làm 'Nông dân nhí': Chèo thuyền hái sen, phân loại ngó sen, tách hạt sen tươi",
+      "Nhập môn trà đạo Việt: Học nghệ thuật ướp và pha trà sen đạt chuẩn OCOP 4 sao",
+      "Xưởng thủ công mùa hè: Tự tay đúc nến thơm sen và làm xà phòng tinh dầu sen Kim Liên",
+      "Lớp học văn hóa: Học hát và tự sáng tác lời mới cho các điệu Dân ca Ví Giặm về quê Bác",
+      "Bao gồm toàn bộ bữa trưa thực dưỡng, áo bà ba nông dân, nón lá và xe đưa đón an toàn"
+    ],
+    takeaway: "Huy hiệu Trại hè Sen Quê Bác, trọn bộ sản phẩm tự tay chế biến, video nhật ký trải nghiệm",
+    minPax: 10
+  },
+
+  // --- NHÓM 2: DÀNH CHO KHÁCH DU LỊCH ĐẠI CHÚNG, GIA ĐÌNH & ĐOÀN THỂ ---
+  {
+    id: "PUB-01",
+    category: "public",
+    name: "Thưởng Trà Sen – Nghe Câu Ví Giặm",
+    tagline: "Không gian trà đạo thiền tịnh & Dân ca UNESCO",
+    target: "Khách hành hương, cơ quan đoàn thể, người cao tuổi",
+    duration: "60 – 90 Phút thư giãn thảnh thơi",
+    season: "Phục vụ quanh năm trong không gian nhà sàn ven hồ sen",
+    priceRange: "80.000 – 120.000 đ/người",
+    basePrice: 100000,
+    unit: "người",
+    hasMealOption: false,
+    image: "assets/images/dan_ca_vi_giam.jpg",
+    highlights: [
+      "Thưởng thức 03 phẩm trà sen OCOP thượng hạng: Trà Bông Sen tươi, Trà Liên Tu, Trà Bạch Liên Nữ Vương",
+      "Tiệc trà truyền thống dùng kèm Hạt sen sấy bơ mật ong giòn rụm và Bánh cà hạt sen xứ Nghệ",
+      "Lắng nghe các nghệ nhân dân ca biểu diễn điệu Ví, Giặm ân tình mộc mạc bên hồ sen",
+      "Giao lưu đối đáp, tìm hiểu văn hóa trà sen cung đình và cách nhận biết trà sen sạch không hương liệu",
+      "Không gian check-in chụp ảnh áo dài, áo bà ba bên khung cảnh hồ sen thơ mộng"
+    ],
+    takeaway: "Voucher ưu đãi 10% mua nông sản sen OCOP tại gian hàng HTX",
+    minPax: 5
+  },
+  {
+    id: "PUB-02",
+    category: "public",
+    name: "Workshop 'Sáng Tạo Cùng Sen'",
+    tagline: "Lớp thủ công mỹ nghệ sen ứng dụng cho mọi lứa tuổi",
+    target: "Khách gia đình, bạn trẻ, đoàn du lịch trải nghiệm",
+    duration: "2 – 3 Giờ thực hành sáng tạo",
+    season: "Phục vụ quanh năm (Sáng 09:00 hoặc Chiều 14:00)",
+    priceRange: "150.000 – 250.000 đ/người",
+    basePrice: 190000,
+    unit: "người",
+    hasMealOption: false,
+    image: "assets/images/diy_nen_thom_sen.jpg",
+    highlights: [
+      "Thực hành 03 bộ môn thủ công mỹ nghệ lấy cảm hứng từ cây sen Kim Liên:",
+      "• 1. Tự tay phối màu và dán Tranh lá sen phong cảnh sấy khô ép đóng khung gỗ",
+      "• 2. Đúc Nến thơm hoa sen từ sáp đậu nành thiên nhiên và tinh dầu sen nguyên chất",
+      "• 3. Tự làm Xà phòng dưỡng da tinh dầu sen thiên nhiên tạo hình bông sen",
+      "Được nghệ nhân HTX hướng dẫn tận tình từng bước kỹ thuật xử lý nguyên liệu tự nhiên",
+      "Thưởng thức trà tâm sen và hạt sen sấy trong suốt thời gian thực hành"
+    ],
+    takeaway: "Toàn bộ tác phẩm tranh lá sen, hũ nến thơm hoặc bánh xà phòng sen do chính tay bạn làm ra",
+    minPax: 2
+  },
+  {
+    id: "PUB-03",
+    category: "public",
+    name: "Combo 'Gia Đình Về Làng Sen'",
+    tagline: "Hành trình trọn vẹn yêu thương cho cả tổ ấm",
+    target: "Hộ gia đình từ 3 đến 5 thành viên",
+    duration: "Nửa ngày (Buổi sáng 08:30 - 13:00 hoặc chiều)",
+    season: "Phục vụ quanh năm",
+    priceRange: "450.000 – 600.000 đ/combo",
+    basePrice: 520000,
+    unit: "combo",
+    isCombo: true,
+    hasMealOption: false, // Đã bao gồm mâm cơm gia đình
+    image: "assets/images/hero_sen_que_bac.jpg",
+    highlights: [
+      "01 Hướng dẫn viên riêng đồng hành chu đáo chăm sóc xuyên suốt cho gia đình",
+      "Tham quan đầm sen bách diệp, chụp ảnh lưu niệm gia đình trong trang phục truyền thống",
+      "Buổi thực hành thủ công gia đình: Bố mẹ cùng các con tự tay ướp đóa trà sen tươi mang về",
+      "Mâm cơm quê đặc sản từ sen Kim Liên chuẩn vị xứ Nghệ dành cho cả gia đình:",
+      "• Gà đồi hấp lá sen, cơm hạt sen bọc lá sen, gỏi ngó sen tôm thịt, canh củ sen hầm sườn non, chè sen tráng miệng",
+      "Tặng kèm 01 set quà nông sản sen Bách Liên cho bố mẹ"
+    ],
+    takeaway: "02 Đóa trà bông sen bách diệp tươi + Set quà lưu niệm OCOP cho gia đình",
+    minPax: 1 // 1 combo
   }
 ];
 
